@@ -59,7 +59,7 @@ class ProductCategoryController extends AbstractController
             }
         }
 
-        $productCategoryRepository->save($pc);
+        $productCategoryRepository->save($pc, true);
 
         return $this->json([
             'payload' => $this->serialize($pc)
@@ -145,7 +145,7 @@ class ProductCategoryController extends AbstractController
             }
         }
 
-        $productCategoryRepository->save($pc);
+        $productCategoryRepository->save($pc, true);
 
         return $this->json(['payload' => $this->serialize($pc)]);
     }

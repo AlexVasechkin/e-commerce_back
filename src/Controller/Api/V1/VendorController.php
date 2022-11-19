@@ -24,9 +24,9 @@ class VendorController extends AbstractController
             ->setName($rp['name'])
         ;
 
-        $vendorRepository->save($vendor);
+        $vendorRepository->save($vendor, true);
 
-        return $this->json(['payload' => ['id' => $vendor->getId()]]);
+        return $this->json(['id' => $vendor->getId()]);
     }
 
     /**
@@ -40,7 +40,7 @@ class VendorController extends AbstractController
 
         isset($rp['name']) ? $v->setName($rp['name']) : null;
 
-        $vendorRepository->save($v);
+        $vendorRepository->save($v, true);
 
         return $this->json([]);
     }
@@ -68,11 +68,13 @@ class VendorController extends AbstractController
     }
 
     /**
-     * @Route("/api/v1/private/vendors", methods={"GET"})
+     * @Route("/api/v1/private/vendors", methods={"POST"})
      */
     public function getList(VendorRepository $vendorRepository)
     {
-
+        return $this->json(['payload' => array_map(function (Vendor $vendor) {
+            return $this->serialize($vendor);
+        }, $vendorRepository->findAll())]);
     }
 
     /**
@@ -81,7 +83,7 @@ class VendorController extends AbstractController
     public function getVendorDict(
         VendorRepository $vendorRepository
     ) {
-        return $this->json(['paylaod' => array_map(function (Vendor $vendor) {
+        return $this->json(['payload' => array_map(function (Vendor $vendor) {
             return $this->serialize($vendor);
         }, $vendorRepository->findAll())]);
     }
