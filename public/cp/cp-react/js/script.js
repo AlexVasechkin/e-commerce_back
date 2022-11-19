@@ -5348,6 +5348,29 @@ _components_product_editor_components_update_product_form_state__WEBPACK_IMPORTE
 
 /***/ }),
 
+/***/ "./src/components/product-category-editor/index.js":
+/*!*********************************************************!*\
+  !*** ./src/components/product-category-editor/index.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var mobx_react_lite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mobx-react-lite */ "./node_modules/mobx-react-lite/es/index.js");
+
+
+const ProductCategoryEditor = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_1__.observer)(() => {});
+
+const renderProductCategoryEditor = () => {};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (renderProductCategoryEditor);
+
+/***/ }),
+
 /***/ "./src/components/product-list/components/create-product-modal/index.js":
 /*!******************************************************************************!*\
   !*** ./src/components/product-list/components/create-product-modal/index.js ***!
@@ -59481,10 +59504,13 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_product_card__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/product-card */ "./src/components/product-card/index.js");
 /* harmony import */ var _components_product_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/product-list */ "./src/components/product-list/index.js");
+/* harmony import */ var _components_product_category_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/product-category-editor */ "./src/components/product-category-editor/index.js");
+
 
 
 (0,_components_product_card__WEBPACK_IMPORTED_MODULE_0__["default"])();
 (0,_components_product_list__WEBPACK_IMPORTED_MODULE_1__["default"])();
+(0,_components_product_category_editor__WEBPACK_IMPORTED_MODULE_2__["default"])();
 })();
 
 /******/ })()

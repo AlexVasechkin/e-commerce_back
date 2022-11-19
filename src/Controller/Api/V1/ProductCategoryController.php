@@ -4,6 +4,7 @@ namespace App\Controller\Api\V1;
 
 use App\Entity\ProductCategory;
 use App\Repository\ProductCategoryRepository;
+use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -31,7 +32,6 @@ class ProductCategoryController extends AbstractController
         return [
             'id' => $entity->getId(),
             'parentId' => $entity->getParent() ? $entity->getParent()->getId() : null,
-            'code' => $entity->getCode(),
             'name' => $entity->getName(),
             'isActive' => $entity->isActive()
         ];
@@ -70,12 +70,29 @@ class ProductCategoryController extends AbstractController
      * @Route("/api/v1/private/product-category/list", methods={"GET"})
      */
     public function getList(
-        ProductCategoryRepository $productCategoryRepository
+        Connection $connection
     ) {
+        $query = implode(PHP_EOL, [
+            'select',
+            '     pc.id        as id',
+            '    ,pc.name      as name',
+            '    ,pc.is_active as is_active',
+            '    ,p.id         as parent_id',
+            '    ,p.name       as parent_name',
+            '  from product_category as pc',
+            '  left join product_category as p on p.id = pc.parent_id'
+        ]);
+
         return $this->json([
-            'payload' => array_map(function (ProductCategory $pc) {
-                return $this->serialize($pc);
-            }, $productCategoryRepository->findAll())
+            'payload' => array_map(function (array $item) {
+                return [
+                    'id' => $item['id'],
+                    'name' => $item['name'],
+                    'isActive' => $item['is_active'],
+                    'parentId' => $item['parent_id'],
+                    'parentName' => $item['parent_name']
+                ];
+            }, $connection->fetchAllAssociative($query))
         ]);
     }
 
@@ -113,7 +130,9 @@ class ProductCategoryController extends AbstractController
 
         $pc = $productCategoryRepository->findOneBy(['id' => $id]);
 
-        isset($rp['code']) ? $pc->setCode($rp['code']) : null;
+        if (is_null($pc)) {
+            throw new NotFoundHttpException('Категория не найдена');
+        }
 
         isset($rp['name']) ? $pc->setName($rp['name']) : null;
 

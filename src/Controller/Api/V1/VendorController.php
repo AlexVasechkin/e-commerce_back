@@ -2,17 +2,12 @@
 
 namespace App\Controller\Api\V1;
 
-use App\Application\Contracts\CreateVendorInterface;
-use App\Application\Contracts\UpdateVendorInterface;
-use App\Application\Repository\Vendor\DTO\CreateVendorRequest;
-use App\Application\Repository\Vendor\DTO\UpdateVendorRequest;
-use App\Domain\ValueObjects\StringFixedLength;
 use App\Entity\Vendor;
 use App\Repository\VendorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class VendorController extends AbstractController
 {
@@ -21,86 +16,73 @@ class VendorController extends AbstractController
      */
     public function create(
         Request $httpRequest,
-        CreateVendorInterface $createVendorAction,
-        NormalizerInterface $normalizer
+        VendorRepository $vendorRepository
     ) {
-        try {
-            $requestData = $httpRequest->toArray();
+        $rp = $httpRequest->toArray();
 
-            $code = $requestData['code'] ?? null;
-            $name = $requestData['name'] ?? null;
+        $vendor = (new Vendor())
+            ->setName($rp['name'])
+        ;
 
-            $response = $createVendorAction->create(new CreateVendorRequest(
-                (new StringFixedLength($code, 'code: expected string length[1, 128].', 1, 128))->getValue(),
-                (new StringFixedLength($name, 'name: expected string length[1, 255].', 1, 255))->getValue()
-            ));
+        $vendorRepository->save($vendor);
 
-            return $this->json([
-                'success' => true,
-                'errorText' => null,
-                'payload' => $normalizer->normalize($response->getVendor())
-            ]);
-
-        } catch (\Throwable $e) {
-            return $this->json([
-                'success' => false,
-                'errorText' => $e->getMessage(),
-                'payload' => null
-            ]);
-        }
+        return $this->json(['payload' => ['id' => $vendor->getId()]]);
     }
 
     /**
      * @Route("/api/v1/private/vendor/update", name="app_api_v1_vendor_update", methods={"POST"})
      */
-    public function update(
-        Request $httpRequest,
-        UpdateVendorInterface $updateVendorAction,
-        NormalizerInterface $normalizer
-    ) {
-        try {
-            $requestData = $httpRequest->toArray();
+    public function update(Request $httpRequest, VendorRepository $vendorRepository)
+    {
+        $rp = $httpRequest->toArray();
 
-            $response = $updateVendorAction->update(
-                (new UpdateVendorRequest($requestData['id'] ?? null))
-                    ->setCode(isset($requestData['code']) ? (new StringFixedLength($requestData['code'],
-                        'code: expected string length[1, 128]', 1, 128)) : null)
-                    ->setName(isset($requestData['name']) ? (new StringFixedLength($requestData['name'] ?? null,
-                        'name: expected string length[1, 255]', 1, 255)) : null)
-            );
+        $v = $vendorRepository->findOneBy(['id' => $rp['id']]);
 
-            return $this->json([
-                'success' => true,
-                'errorText' => null,
-                'payload' => $normalizer->normalize($response->getVendor())
-            ]);
+        isset($rp['name']) ? $v->setName($rp['name']) : null;
 
-        } catch (\Throwable $e) {
-            return $this->json([
-                'success' => false,
-                'errorText' => $e->getMessage(),
-                'payload' => null
-            ]);
-        }
+        $vendorRepository->save($v);
+
+        return $this->json([]);
+    }
+
+    private function serialize(Vendor $vendor): array
+    {
+        return [
+            'id' => $vendor->getId(),
+            'name' => $vendor->getName()
+        ];
     }
 
     /**
-     * @param VendorRepository $vendorRepository
-     * @param NormalizerInterface $normalizer
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @Route("/api/v1/private/vendor/{id}", methods={"GET"})
+     */
+    public function getInstance($id, VendorRepository $vendorRepository)
+    {
+        $v = $vendorRepository->findOneBy(['id' => $id]);
+
+        if (is_null($v)) {
+            throw new NotFoundHttpException('Вендор не найден');
+        }
+
+        return $this->json(['payload' => $this->serialize($v)]);
+    }
+
+    /**
+     * @Route("/api/v1/private/vendors", methods={"GET"})
+     */
+    public function getList(VendorRepository $vendorRepository)
+    {
+
+    }
+
+    /**
      * @Route("/api/v1/private/vendor/dict")
      */
     public function getVendorDict(
-        VendorRepository $vendorRepository,
-        NormalizerInterface $normalizer
+        VendorRepository $vendorRepository
     ) {
-        $d = array_map(function (Vendor $vendor) use ($normalizer) {
-            return $normalizer->normalize($vendor, null, ['groups' => 'api_dict']);
-        }, $vendorRepository->findAll());
-
-        return $this->json([
-            'payload' => $d
-        ], 200, ['Access-Control-Allow-Origin' => '*']);
+        return $this->json(['paylaod' => array_map(function (Vendor $vendor) {
+            return $this->serialize($vendor);
+        }, $vendorRepository->findAll())]);
     }
 }
