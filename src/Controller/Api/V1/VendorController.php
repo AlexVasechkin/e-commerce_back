@@ -6,6 +6,7 @@ use App\Entity\Vendor;
 use App\Repository\VendorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -86,5 +87,23 @@ class VendorController extends AbstractController
         return $this->json(['payload' => array_map(function (Vendor $vendor) {
             return $this->serialize($vendor);
         }, $vendorRepository->findAll())]);
+    }
+
+    /**
+     * @Route("/api/v1/private/vendor/remove", methods={"POST"})
+     */
+    public function remove(Request $httpRequest, VendorRepository $vendorRepository)
+    {
+        $id = $httpRequest->toArray()['id'] ?? 0;
+
+        $v = $vendorRepository->findOneBy(['id' => $id]);
+
+        if (is_null($v)) {
+            throw new NotFoundHttpException();
+        }
+
+        $vendorRepository->remove($v, true);
+
+        return new Response();
     }
 }
