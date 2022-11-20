@@ -21,13 +21,15 @@ class CategoryPropertyRepository extends ServiceEntityRepository
         parent::__construct($registry, CategoryProperty::class);
     }
 
-    public function save(CategoryProperty $entity, bool $flush = false): void
+    public function save(CategoryProperty $entity, bool $flush = false): CategoryProperty
     {
         $this->getEntityManager()->persist($entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+
+        return $entity;
     }
 
     public function remove(CategoryProperty $entity, bool $flush = false): void
