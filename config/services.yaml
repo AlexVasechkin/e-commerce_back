@@ -6,6 +6,10 @@
 parameters:
     app.env: '%env(APP_ENV)%'
 
+    app.object_storage.key_id: '%env(OBJECT_STORAGE_KEY_ID)%'
+    app.object_storage.secret_key: '%env(OBJECT_STORAGE_SECRET_KEY)%'
+    app.object_storage.bucket: '%env(OBJECT_STORAGE_BUCKET)%'
+
 services:
     # default configuration for services in *this* file
     _defaults:

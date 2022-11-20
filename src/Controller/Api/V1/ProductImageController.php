@@ -23,7 +23,8 @@ class ProductImageController extends AbstractController
         Request $httpRequest,
         ProductImageRepository $productImageRepository,
         ProductRepository $productRepository,
-        ObjectStorageAdapter $objectStorageAdapter
+        ObjectStorageAdapter $objectStorageAdapter,
+        ParameterBagInterface $parameterBag
     ) {
         $image = (new ProductImage())
             ->setProduct($productRepository->findOneBy(['id' => $httpRequest->request->get('productId')]))
@@ -38,12 +39,12 @@ class ProductImageController extends AbstractController
         $resource = \fopen($file->getRealPath(), 'r');
         $fileName = $image->getId() . '.' . $file->getClientOriginalExtension();
         $objectStorageAdapter->client->PutObject([
-            'Bucket' => 'vasechkin-test',
+            'Bucket' => $parameterBag->get('app.object_storage.bucket'),
             'Key' => $fileName,
             'Body' => $resource,
         ]);
 
-        $image->setPath('/vasechkin-test/' . $fileName);
+        $image->setPath(sprintf('/%s/', $parameterBag->get('app.object_storage.bucket')) . $fileName);
         $productImageRepository->save($image, true);
 
         return $this->json([
@@ -93,7 +94,7 @@ class ProductImageController extends AbstractController
         }
 
         $filePath = $productImage->getPath();
-        $fileName = str_replace('/vasechkin-test/', '', $filePath);
+        $fileName = str_replace(sprintf('/%s/', $parameterBag->get('app.object_storage.bucket')), '', $filePath);
 
         $filePath = $fileDir() . '/' . $fileName;
 
@@ -102,7 +103,7 @@ class ProductImageController extends AbstractController
         }
 
         $response = $objectStorageAdapter->client->getObject([
-            'Bucket' => 'vasechkin-test',
+            'Bucket' => $parameterBag->get('app.object_storage.bucket'),
             'Key' => $fileName
         ]);
         $fp = fopen($filePath, 'wb');

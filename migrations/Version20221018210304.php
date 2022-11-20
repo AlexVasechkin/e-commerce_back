@@ -19,14 +19,11 @@ final class Version20221018210304 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE product_image ALTER is_deleted SET DEFAULT false');
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE product_image ALTER is_deleted DROP DEFAULT');
     }
 }
