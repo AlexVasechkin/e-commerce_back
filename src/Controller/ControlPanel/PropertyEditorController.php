@@ -5,13 +5,13 @@ namespace App\Controller\ControlPanel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProductListController extends AbstractController
+class PropertyEditorController extends AbstractController
 {
     /**
-     * @Route("/control-panel/products", methods={"GET"}, name="control-panel__products")
+     * @Route("/control-panel/properties", methods={"GET"}, name="control-panel__properties")
      */
     public function main()
     {
-        return $this->render('cp/product-list.html.twig', []);
+        return $this->render('cp/property-editor.html.twig', []);
     }
 }

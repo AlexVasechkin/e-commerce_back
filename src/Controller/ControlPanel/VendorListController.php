@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class VendorListController extends AbstractController
 {
     /**
-     * @Route("/control-panel/vendors")
+     * @Route("/control-panel/vendors", methods={"GET"}, name="control-panel__vendors")
      */
     public function index()
     {

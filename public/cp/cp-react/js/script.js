@@ -4210,6 +4210,286 @@ function useWindow() {
 
 /***/ }),
 
+/***/ "./src/components/common/data-table/index.js":
+/*!***************************************************!*\
+  !*** ./src/components/common/data-table/index.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+
+const DataTable = _ref => {
+  let {
+    getHead = () => null,
+    getBody = () => null
+  } = _ref;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "table-responsive"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", {
+    className: "table table-borderless"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, getHead())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, getBody())));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DataTable);
+
+/***/ }),
+
+/***/ "./src/components/common/property/create-property-modal/create-property-form/index.js":
+/*!********************************************************************************************!*\
+  !*** ./src/components/common/property/create-property-modal/create-property-form/index.js ***!
+  \********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+
+
+const CreatePropertyForm = _ref => {
+  let {
+    onSuccess = id => {}
+  } = _ref;
+  const [id, setId] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [name, setName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+
+  const onSubmit = e => {
+    e.preventDefault();
+    axios__WEBPACK_IMPORTED_MODULE_1__["default"].post('/api/v1/private/property/create', {
+      name
+    }).then(_ref2 => {
+      let {
+        data = {}
+      } = _ref2;
+      const {
+        id = null
+      } = data;
+      setId(id);
+      onSuccess(id);
+    });
+  };
+
+  const resetForm = () => {
+    setId(null);
+    setName('');
+  };
+
+  const getForm = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
+    onSubmit: onSubmit
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "\u0421\u0432\u043E\u0439\u0441\u0442\u0432\u043E"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    className: "form-control",
+    value: name,
+    onChange: e => setName(e.target.value)
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "text-right"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: "btn btn-outline-success",
+    type: "submit"
+  }, "\u0421\u043E\u0437\u0434\u0430\u0442\u044C")));
+
+  const getFinishScreen = () => {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "text-center"
+    }, "\u0421\u0432\u043E\u0439\u0441\u0442\u0432\u043E \u0443\u0441\u043F\u0435\u0448\u043D\u043E \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u043E!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "text-center"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+      className: "btn btn-outline-info",
+      onClick: resetForm
+    }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0435\u0449\u0435")));
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, id ? getFinishScreen() : getForm());
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CreatePropertyForm);
+
+/***/ }),
+
+/***/ "./src/components/common/property/create-property-modal/index.js":
+/*!***********************************************************************!*\
+  !*** ./src/components/common/property/create-property-modal/index.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Modal.js");
+/* harmony import */ var _create_property_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create-property-form */ "./src/components/common/property/create-property-modal/create-property-form/index.js");
+
+
+
+
+const CreatePropertyModal = _ref => {
+  let {
+    btnClasses = '',
+    onSuccess = id => {}
+  } = _ref;
+  const [visible, setVisible] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+
+  const close = () => setVisible(false);
+
+  const show = () => setVisible(true);
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: btnClasses,
+    onClick: show
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
+    className: "fa fa-plus"
+  }), " \u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    show: visible,
+    onHide: close
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Header, {
+    closeButton: true
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Title, null, "\u0414\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0438\u0435 \u0441\u0432\u043E\u0439\u0441\u0442\u0432\u0430")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_create_property_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    onSuccess: onSuccess
+  }))));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CreatePropertyModal);
+
+/***/ }),
+
+/***/ "./src/components/common/vendor/create-vendor-modal/create-vendor-form/index.js":
+/*!**************************************************************************************!*\
+  !*** ./src/components/common/vendor/create-vendor-modal/create-vendor-form/index.js ***!
+  \**************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+
+
+const CreateVendorForm = _ref => {
+  let {
+    onSuccess = id => {}
+  } = _ref;
+  const [id, setId] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [name, setName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+
+  const onSubmit = e => {
+    e.preventDefault();
+    axios__WEBPACK_IMPORTED_MODULE_1__["default"].post('/api/v1/private/vendor/create', {
+      name
+    }).then(_ref2 => {
+      let {
+        data = {}
+      } = _ref2;
+      const {
+        id = null
+      } = data;
+      setId(id);
+      onSuccess(id);
+    });
+  };
+
+  const resetForm = () => {
+    setId(null);
+    setName('');
+  };
+
+  const getForm = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
+    onSubmit: onSubmit
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "\u0418\u043C\u044F \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u0442\u0435\u043B\u044F"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    className: "form-control",
+    value: name,
+    onChange: e => setName(e.target.value)
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "text-right"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: "btn btn-outline-success",
+    type: "submit"
+  }, "\u0421\u043E\u0437\u0434\u0430\u0442\u044C")));
+
+  const getFinishScreen = () => {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "text-center"
+    }, "\u041F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u0442\u0435\u043B\u044C \u0443\u0441\u043F\u0435\u0448\u043D\u043E \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "text-center"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+      className: "btn btn-outline-info",
+      onClick: resetForm
+    }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0435\u0449\u0435")));
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, id ? getFinishScreen() : getForm());
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CreateVendorForm);
+
+/***/ }),
+
+/***/ "./src/components/common/vendor/create-vendor-modal/index.js":
+/*!*******************************************************************!*\
+  !*** ./src/components/common/vendor/create-vendor-modal/index.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _create_vendor_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create-vendor-form */ "./src/components/common/vendor/create-vendor-modal/create-vendor-form/index.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Modal.js");
+
+
+
+
+const CreateVendorModal = _ref => {
+  let {
+    btnClasses = '',
+    onSuccess = id => {}
+  } = _ref;
+  const [visible, setVisible] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+
+  const close = () => setVisible(false);
+
+  const show = () => setVisible(true);
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: btnClasses,
+    onClick: show
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
+    className: "fa fa-plus"
+  }), " \u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    show: visible,
+    onHide: close
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Header, {
+    closeButton: true
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Title, null, "\u0414\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0438\u0435 \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u0442\u0435\u043B\u044F")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_create_vendor_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    onSuccess: onSuccess
+  }))));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CreateVendorModal);
+
+/***/ }),
+
 /***/ "./src/components/product-card/components/create-product-image-modal/components/create-product-image-form/index.js":
 /*!*************************************************************************************************************************!*\
   !*** ./src/components/product-card/components/create-product-image-modal/components/create-product-image-form/index.js ***!
@@ -5268,6 +5548,7 @@ const renderProductCard = () => {
   const root = document.getElementById('product-card-root');
 
   if (root !== null) {
+    _state__WEBPACK_IMPORTED_MODULE_5__["default"].init();
     react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ProductCard, null), root);
   }
 };
@@ -5311,7 +5592,6 @@ class ProductCardState {
 
   constructor() {
     (0,mobx__WEBPACK_IMPORTED_MODULE_4__.makeAutoObservable)(this);
-    this.reloadVendorsDict();
   }
 
   reloadVendorsDict() {
@@ -5331,6 +5611,10 @@ class ProductCardState {
     });
   }
 
+  init() {
+    this.reloadVendorsDict();
+  }
+
 }
 
 const productCardStateInstance = new ProductCardState();
@@ -5345,29 +5629,6 @@ _components_product_editor_components_update_product_form_state__WEBPACK_IMPORTE
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (productCardStateInstance);
-
-/***/ }),
-
-/***/ "./src/components/product-category-editor/index.js":
-/*!*********************************************************!*\
-  !*** ./src/components/product-category-editor/index.js ***!
-  \*********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var mobx_react_lite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mobx-react-lite */ "./node_modules/mobx-react-lite/es/index.js");
-
-
-const ProductCategoryEditor = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_1__.observer)(() => {});
-
-const renderProductCategoryEditor = () => {};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (renderProductCategoryEditor);
 
 /***/ }),
 
@@ -5457,6 +5718,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _components_products_table_row__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/products-table-row */ "./src/components/product-list/components/products-table/components/products-table-row/index.js");
+/* harmony import */ var _common_data_table__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../common/data-table */ "./src/components/common/data-table/index.js");
+
 
 
 
@@ -5464,11 +5727,10 @@ const ProductsTable = _ref => {
   let {
     products = () => []
   } = _ref;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "table-responsive"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", {
-    className: "table table-borderless"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "ID"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "Code"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "Actions"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, products.map(item => {
+
+  const getHead = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "ID"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u0410\u0440\u0442\u0438\u043A\u0443\u043B"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u044F"));
+
+  const getBody = () => products.map(item => {
     const {
       id = ''
     } = item;
@@ -5476,7 +5738,12 @@ const ProductsTable = _ref => {
       key: `ptr${id}`,
       item: item
     });
-  }))));
+  });
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_common_data_table__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    getHead: getHead,
+    getBody: getBody
+  });
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductsTable);
@@ -5500,6 +5767,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_products_table__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/products-table */ "./src/components/product-list/components/products-table/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var _components_create_product_modal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/create-product-modal */ "./src/components/product-list/components/create-product-modal/index.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Spinner.js");
+
 
 
 
@@ -5525,7 +5794,11 @@ const ProductList = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_1__.observer)(()
     className: "card-body"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "text-right m-b-15"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_create_product_modal__WEBPACK_IMPORTED_MODULE_5__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_products_table__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_create_product_modal__WEBPACK_IMPORTED_MODULE_5__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, _state__WEBPACK_IMPORTED_MODULE_2__["default"].isAwait ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "text-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    animation: 'border'
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_products_table__WEBPACK_IMPORTED_MODULE_3__["default"], {
     products: _state__WEBPACK_IMPORTED_MODULE_2__["default"].products
   }))))));
 });
@@ -5534,6 +5807,7 @@ const renderProductList = () => {
   const root = document.getElementById('product-list-root');
 
   if (root !== null) {
+    _state__WEBPACK_IMPORTED_MODULE_2__["default"].init();
     react_dom__WEBPACK_IMPORTED_MODULE_4__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ProductList, null), root);
   }
 };
@@ -5597,6 +5871,9 @@ class ProductListState {
 
   constructor() {
     (0,mobx__WEBPACK_IMPORTED_MODULE_1__.makeAutoObservable)(this);
+  }
+
+  init() {
     this.reloadVendors();
     this.reloadProducts();
   }
@@ -5605,6 +5882,547 @@ class ProductListState {
 
 const productListStateInstance = new ProductListState();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (productListStateInstance);
+
+/***/ }),
+
+/***/ "./src/components/property-editor/components/create-property-modal/index.js":
+/*!**********************************************************************************!*\
+  !*** ./src/components/property-editor/components/create-property-modal/index.js ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _common_property_create_property_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../common/property/create-property-modal */ "./src/components/common/property/create-property-modal/index.js");
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../state */ "./src/components/property-editor/state.js");
+
+
+
+
+const PropertyEditorCreatePropertyModal = () => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_common_property_create_property_modal__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    btnClasses: 'btn btn-outline-success',
+    onSuccess: () => _state__WEBPACK_IMPORTED_MODULE_2__["default"].reloadDataSet()
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PropertyEditorCreatePropertyModal);
+
+/***/ }),
+
+/***/ "./src/components/property-editor/components/property-table/index.js":
+/*!***************************************************************************!*\
+  !*** ./src/components/property-editor/components/property-table/index.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _common_data_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../common/data-table */ "./src/components/common/data-table/index.js");
+/* harmony import */ var _property_table_row__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./property-table-row */ "./src/components/property-editor/components/property-table/property-table-row/index.js");
+
+
+
+
+const PropertyTable = _ref => {
+  let {
+    dataSet = []
+  } = _ref;
+
+  const getHead = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "ID"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u0418\u043C\u044F"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u0438"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u044F"));
+
+  const wrapRow = row => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_property_table_row__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    key: `p${row.id}`,
+    row: row
+  });
+
+  const getBody = () => dataSet.map(row => wrapRow(row));
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_common_data_table__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    getHead: getHead,
+    getBody: getBody
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PropertyTable);
+
+/***/ }),
+
+/***/ "./src/components/property-editor/components/property-table/property-table-row/index.js":
+/*!**********************************************************************************************!*\
+  !*** ./src/components/property-editor/components/property-table/property-table-row/index.js ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../state */ "./src/components/property-editor/state.js");
+
+
+
+
+const PropertyTableRow = _ref => {
+  let {
+    row = {
+      id: '',
+      name: '',
+      categories: ''
+    }
+  } = _ref;
+  const {
+    id = '',
+    categories = ''
+  } = row;
+  const [name, setName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(row.name);
+  const [isAwait, setIsAwait] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+
+  const save = () => {
+    setIsAwait(true);
+    axios__WEBPACK_IMPORTED_MODULE_1__["default"].post('/api/v1/private/property/update', {
+      id,
+      name
+    }).catch(() => {
+      setName(row.name);
+    }).finally(() => setIsAwait(false));
+  };
+
+  const remove = () => {
+    setIsAwait(true);
+    axios__WEBPACK_IMPORTED_MODULE_1__["default"].post('/api/v1/private/property/remove', {
+      id
+    }).then(() => {
+      _state__WEBPACK_IMPORTED_MODULE_2__["default"].removeDsItem(id);
+    }).finally(() => setIsAwait(false));
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, `${id}`), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    disabled: isAwait,
+    className: "form-control",
+    value: `${name}`,
+    onChange: e => setName(e.target.value)
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, `${categories}`), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "btn-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    disabled: isAwait,
+    className: "btn btn-outline-success",
+    onClick: () => save()
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
+    className: "fa fa-save"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    disabled: isAwait,
+    className: "btn btn-outline-light",
+    onClick: () => remove()
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
+    className: "fa fa-trash"
+  })))));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PropertyTableRow);
+
+/***/ }),
+
+/***/ "./src/components/property-editor/index.js":
+/*!*************************************************!*\
+  !*** ./src/components/property-editor/index.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var mobx_react_lite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mobx-react-lite */ "./node_modules/mobx-react-lite/es/index.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Spinner.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./state */ "./src/components/property-editor/state.js");
+/* harmony import */ var _components_property_table__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/property-table */ "./src/components/property-editor/components/property-table/index.js");
+/* harmony import */ var _components_create_property_modal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/create-property-modal */ "./src/components/property-editor/components/create-property-modal/index.js");
+
+
+
+
+
+
+
+const PropertyEditor = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_1__.observer)(() => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "col-lg-12"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "card m-b-30"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "card-header"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "row align-items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "col-6"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
+    className: "card-title mb-0"
+  }, "\u0421\u0432\u043E\u0439\u0441\u0442\u0432\u0430")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "card-body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "text-right m-b-15"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_create_property_modal__WEBPACK_IMPORTED_MODULE_5__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, _state__WEBPACK_IMPORTED_MODULE_3__["default"].isAwait ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "text-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    animation: 'border'
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_property_table__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    dataSet: _state__WEBPACK_IMPORTED_MODULE_3__["default"].dataSet
+  }))))));
+});
+
+const renderPropertyEditor = () => {
+  const root = document.getElementById('property-editor-root');
+
+  if (root !== null) {
+    _state__WEBPACK_IMPORTED_MODULE_3__["default"].init();
+    react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(PropertyEditor, null), root);
+  }
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (renderPropertyEditor);
+
+/***/ }),
+
+/***/ "./src/components/property-editor/state.js":
+/*!*************************************************!*\
+  !*** ./src/components/property-editor/state.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var mobx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mobx */ "./node_modules/mobx/dist/mobx.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+
+
+class PropertyEditorState {
+  isAwait = false;
+  dataSet = [];
+
+  reloadDataSet() {
+    this.isAwait = true;
+    axios__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/v1/private/property/list').then(_ref => {
+      let {
+        data = {}
+      } = _ref;
+      const {
+        payload = []
+      } = data;
+      this.dataSet = payload;
+    }).finally(() => {
+      this.isAwait = false;
+    });
+  }
+
+  removeDsItem(id) {
+    const idx = this.dataSet.findIndex(el => el.id == id);
+
+    if (idx > -1) {
+      this.dataSet = [...this.dataSet.splice(0, idx), ...this.dataSet.splice(idx + 1)];
+    }
+  }
+
+  constructor() {
+    (0,mobx__WEBPACK_IMPORTED_MODULE_1__.makeAutoObservable)(this);
+  }
+
+  init() {
+    this.reloadDataSet();
+  }
+
+}
+
+const propertyEditorStateInstance = new PropertyEditorState();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (propertyEditorStateInstance);
+
+/***/ }),
+
+/***/ "./src/components/vendor-editor/components/create-vendor-modal/index.js":
+/*!******************************************************************************!*\
+  !*** ./src/components/vendor-editor/components/create-vendor-modal/index.js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _common_vendor_create_vendor_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../common/vendor/create-vendor-modal */ "./src/components/common/vendor/create-vendor-modal/index.js");
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../state */ "./src/components/vendor-editor/state.js");
+
+
+
+
+const VendorEditorCreateVendorModal = () => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_common_vendor_create_vendor_modal__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    btnClasses: 'btn btn-outline-success',
+    onSuccess: () => _state__WEBPACK_IMPORTED_MODULE_2__["default"].reloadDataSet()
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VendorEditorCreateVendorModal);
+
+/***/ }),
+
+/***/ "./src/components/vendor-editor/components/vendor-table/index.js":
+/*!***********************************************************************!*\
+  !*** ./src/components/vendor-editor/components/vendor-table/index.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _common_data_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../common/data-table */ "./src/components/common/data-table/index.js");
+/* harmony import */ var _vendor_table_row__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./vendor-table-row */ "./src/components/vendor-editor/components/vendor-table/vendor-table-row/index.js");
+
+
+
+
+const VendorTable = _ref => {
+  let {
+    dataSet = []
+  } = _ref;
+
+  const getHead = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "ID"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u0418\u043C\u044F"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u044F"));
+
+  const wrapRow = row => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_vendor_table_row__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    key: `vr-${row.id}`,
+    row: row
+  });
+
+  const getBody = () => dataSet.map(row => wrapRow(row));
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_common_data_table__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    getHead: getHead,
+    getBody: getBody
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VendorTable);
+
+/***/ }),
+
+/***/ "./src/components/vendor-editor/components/vendor-table/vendor-table-row/index.js":
+/*!****************************************************************************************!*\
+  !*** ./src/components/vendor-editor/components/vendor-table/vendor-table-row/index.js ***!
+  \****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../state */ "./src/components/vendor-editor/state.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+
+
+
+const VendorTableRow = _ref => {
+  let {
+    row = {
+      id: '',
+      name: ''
+    }
+  } = _ref;
+  const {
+    id = ''
+  } = row;
+  const [name, setName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(row.name);
+  const [isAwait, setIsAwait] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+
+  const save = () => {
+    setIsAwait(true);
+    axios__WEBPACK_IMPORTED_MODULE_2__["default"].post('/api/v1/private/vendor/update', {
+      id,
+      name
+    }).catch(() => {
+      setName(row.name);
+    }).finally(() => setIsAwait(false));
+  };
+
+  const remove = () => {
+    setIsAwait(true);
+    axios__WEBPACK_IMPORTED_MODULE_2__["default"].post('/api/v1/private/vendor/remove', {
+      id
+    }).then(() => {
+      _state__WEBPACK_IMPORTED_MODULE_1__["default"].removeDsItem(id);
+    }).finally(() => setIsAwait(false));
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, `${id}`), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    disabled: isAwait,
+    className: "form-control",
+    value: `${name}`,
+    onChange: e => setName(e.target.value)
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "btn-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    disabled: isAwait,
+    className: "btn btn-outline-success",
+    onClick: () => save()
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
+    className: "fa fa-save"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    disabled: isAwait,
+    className: "btn btn-outline-light",
+    onClick: () => remove()
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
+    className: "fa fa-trash"
+  })))));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VendorTableRow);
+
+/***/ }),
+
+/***/ "./src/components/vendor-editor/index.js":
+/*!***********************************************!*\
+  !*** ./src/components/vendor-editor/index.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var mobx_react_lite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mobx-react-lite */ "./node_modules/mobx-react-lite/es/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _components_create_vendor_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/create-vendor-modal */ "./src/components/vendor-editor/components/create-vendor-modal/index.js");
+/* harmony import */ var _components_vendor_table__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/vendor-table */ "./src/components/vendor-editor/components/vendor-table/index.js");
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./state */ "./src/components/vendor-editor/state.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Spinner.js");
+
+
+
+
+
+
+
+const VendorEditor = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_1__.observer)(() => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "col-lg-12"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "card m-b-30"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "card-header"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "row align-items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "col-6"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
+    className: "card-title mb-0"
+  }, "\u041F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u0442\u0435\u043B\u0438")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "card-body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "text-right m-b-15"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_create_vendor_modal__WEBPACK_IMPORTED_MODULE_3__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, _state__WEBPACK_IMPORTED_MODULE_5__["default"].isAwait ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    animation: 'border'
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_vendor_table__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    dataSet: _state__WEBPACK_IMPORTED_MODULE_5__["default"].dataSet
+  }))))));
+});
+
+const renderVendorEditor = () => {
+  const root = document.getElementById('vendor-editor-root');
+
+  if (root !== null) {
+    _state__WEBPACK_IMPORTED_MODULE_5__["default"].init();
+    react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(VendorEditor, null), root);
+  }
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (renderVendorEditor);
+
+/***/ }),
+
+/***/ "./src/components/vendor-editor/state.js":
+/*!***********************************************!*\
+  !*** ./src/components/vendor-editor/state.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var mobx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mobx */ "./node_modules/mobx/dist/mobx.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+
+
+class VendorEditorState {
+  dataSet = [];
+  isAwait = false;
+  reloadDataSet = () => {
+    this.isAwait = true;
+    axios__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/v1/private/vendors', {}).then(_ref => {
+      let {
+        data = {}
+      } = _ref;
+      const {
+        payload = []
+      } = data;
+      this.dataSet = payload;
+    }).finally(() => {
+      this.isAwait = false;
+    });
+  };
+
+  constructor() {
+    (0,mobx__WEBPACK_IMPORTED_MODULE_1__.makeAutoObservable)(this);
+  }
+
+  init() {
+    this.reloadDataSet();
+  }
+
+  removeDsItem(id) {
+    const idx = this.dataSet.findIndex(el => el.id == id);
+
+    if (idx > -1) {
+      this.dataSet = [...this.dataSet.splice(0, idx), ...this.dataSet.splice(idx + 1)];
+    }
+  }
+
+}
+
+const vendorEditorStateInstance = new VendorEditorState();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (vendorEditorStateInstance);
 
 /***/ }),
 
@@ -16023,6 +16841,49 @@ __webpack_require__.r(__webpack_exports__);
 const context = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext(null);
 context.displayName = 'NavbarContext';
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (context);
+
+/***/ }),
+
+/***/ "./node_modules/react-bootstrap/esm/Spinner.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/react-bootstrap/esm/Spinner.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _ThemeProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ThemeProvider */ "./node_modules/react-bootstrap/esm/ThemeProvider.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+const Spinner = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.forwardRef(({
+  bsPrefix,
+  variant,
+  animation,
+  size,
+  // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+  as: Component = 'div',
+  className,
+  ...props
+}, ref) => {
+  bsPrefix = (0,_ThemeProvider__WEBPACK_IMPORTED_MODULE_3__.useBootstrapPrefix)(bsPrefix, 'spinner');
+  const bsSpinnerPrefix = `${bsPrefix}-${animation}`;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Component, {
+    ref: ref,
+    ...props,
+    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()(className, bsSpinnerPrefix, size && `${bsSpinnerPrefix}-${size}`, variant && `text-${variant}`)
+  });
+});
+Spinner.displayName = 'Spinner';
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Spinner);
 
 /***/ }),
 
@@ -59504,13 +60365,16 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_product_card__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/product-card */ "./src/components/product-card/index.js");
 /* harmony import */ var _components_product_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/product-list */ "./src/components/product-list/index.js");
-/* harmony import */ var _components_product_category_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/product-category-editor */ "./src/components/product-category-editor/index.js");
+/* harmony import */ var _components_vendor_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/vendor-editor */ "./src/components/vendor-editor/index.js");
+/* harmony import */ var _components_property_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/property-editor */ "./src/components/property-editor/index.js");
+
 
 
 
 (0,_components_product_card__WEBPACK_IMPORTED_MODULE_0__["default"])();
 (0,_components_product_list__WEBPACK_IMPORTED_MODULE_1__["default"])();
-(0,_components_product_category_editor__WEBPACK_IMPORTED_MODULE_2__["default"])();
+(0,_components_vendor_editor__WEBPACK_IMPORTED_MODULE_2__["default"])();
+(0,_components_property_editor__WEBPACK_IMPORTED_MODULE_3__["default"])();
 })();
 
 /******/ })()
