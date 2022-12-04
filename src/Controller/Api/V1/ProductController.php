@@ -14,6 +14,21 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
+    private function serialize(Product $product): array
+    {
+        return [
+            'id' => $product->getId(),
+            'code' => $product->getCode(),
+            'vendorId' => $product->getVendor()->getId(),
+            'name' => $product->getName(),
+            'length' => $product->getLength(),
+            'width' => $product->getWidth(),
+            'height' => $product->getHeight(),
+            'mass' => $product->getMass(),
+            'count' => $product->getCount()
+        ];
+    }
+
     /**
      * @Route("/api/v1/private/product/{id}", methods={"GET"})
      */
@@ -23,22 +38,9 @@ class ProductController extends AbstractController
     ) {
         $product = $productRepository->findOneBy(['id' => intval($id)]);
 
-        if (is_null($product)) {
-            throw new NotFoundHttpException();
-        }
-
         return $this->json([
-            'payload' => [
-                'id' => $product->getId(),
-                'code' => $product->getCode(),
-                'vendorId' => $product->getVendor()->getId(),
-                'name' => $product->getName(),
-                'length' => $product->getLength(),
-                'width' => $product->getWidth(),
-                'height' => $product->getHeight(),
-                'mass' => $product->getMass()
-            ]
-        ], 200, ['Access-Control-Allow-Origin' => '*']);
+            'payload' => $product ? $this->serialize($product) : null
+        ]);
     }
 
     /**
@@ -60,6 +62,7 @@ class ProductController extends AbstractController
                 ->setWidth(0)
                 ->setHeight(0)
                 ->setMass(0)
+                ->setCount(0)
         );
 
         return $this->json([
@@ -105,9 +108,11 @@ class ProductController extends AbstractController
 
         isset($payload['mass']) ? $product->setMass(floatval($payload['mass'])) : null;
 
+        isset($payload['count']) ? $product->setCount($payload['count']) : null;
+
         $productRepository->update($product);
 
-        return $this->json(['success' => true], 200, ['Access-Control-Allow-Origin' => '*']);
+        return $this->json(['success' => true]);
     }
 
     /**
@@ -126,17 +131,16 @@ class ProductController extends AbstractController
                 ->setLimit(10)
         );
 
-        return $this->json(
-            [
-                'payload' => array_map(function (Product $product) {
-                    return [
-                        'id' => $product->getId(),
-                        'code' => $product->getCode(),
-                        'name' => $product->getName()
-                    ];
-                }, $productRepository->findById($pagination->getIdList())),
-                'totalPageCount' => $pagination->getTotalPageCount()
-            ]
-        , 200, ['Access-Control-Allow-Origin' => '*']);
+        return $this->json([
+            'payload' => array_map(function (Product $product) {
+                return [
+                    'id' => $product->getId(),
+                    'code' => $product->getCode(),
+                    'name' => $product->getName(),
+                    'count' => $product->getCount()
+                ];
+            }, $productRepository->findById($pagination->getIdList())),
+            'totalPageCount' => $pagination->getTotalPageCount()
+        ]);
     }
 }

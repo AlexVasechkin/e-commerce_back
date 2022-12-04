@@ -6,7 +6,6 @@ use App\Entity\ProductCategory;
 use App\Repository\ProductCategoryRepository;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -48,7 +47,6 @@ class ProductCategoryController extends AbstractController
         $requestParams = $httpRequest->toArray();
 
         $pc = (new ProductCategory())
-            ->setCode($requestParams['code'] ?? null)
             ->setName($requestParams['name'] ?? null)
             ->setIsActive(true)
         ;

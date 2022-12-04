@@ -83,6 +83,16 @@ class Product
      */
     private $modelItem;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Webpage::class, mappedBy="product", cascade={"persist", "remove"})
+     */
+    private $webpage;
+
+    /**
+     * @ORM\Column(type="integer", nullable=false, options={"unsigned":true, "default":0})
+     */
+    private $count;
+
     public function __construct()
     {
         $this->productImages = new ArrayCollection();
@@ -281,6 +291,40 @@ class Product
         }
 
         $this->modelItem = $modelItem;
+
+        return $this;
+    }
+
+    public function getWebpage(): ?Webpage
+    {
+        return $this->webpage;
+    }
+
+    public function setWebpage(?Webpage $webpage): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($webpage === null && $this->webpage !== null) {
+            $this->webpage->setProduct(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($webpage !== null && $webpage->getProduct() !== $this) {
+            $webpage->setProduct($this);
+        }
+
+        $this->webpage = $webpage;
+
+        return $this;
+    }
+
+    public function getCount(): ?int
+    {
+        return $this->count;
+    }
+
+    public function setCount(int $count): self
+    {
+        $this->count = $count;
 
         return $this;
     }

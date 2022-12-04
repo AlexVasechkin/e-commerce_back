@@ -8,6 +8,7 @@ use App\Repository\ProductCategoryRepository;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProductCategoryItemController extends AbstractController
@@ -52,5 +53,62 @@ class ProductCategoryItemController extends AbstractController
         );
 
         return $this->json([]);
+    }
+
+    /**
+     * @Route("/api/v1/private/product-category-item/update", methods={"POST"})
+     */
+    public function update(
+        Request $httpRequest,
+        ProductCategoryItemRepository $productCategoryItemRepository,
+        ProductCategoryRepository $productCategoryRepository
+    ) {
+        $rp = $httpRequest->toArray();
+
+        $categoryItem = $productCategoryItemRepository->findOneBy(['id' => $rp['categoryItemId'] ?? null]);
+
+        if (is_null($categoryItem)) {
+            throw new NotFoundHttpException();
+        }
+
+        if ($rp['productCategoryId']) {
+            $category = $productCategoryRepository->findOneBy(['id' => $rp['productCategoryId']]);
+
+            if (is_null($category)) {
+                throw new \Exception('Product category not found');
+            }
+
+            $categoryItem->setCategory($category);
+            $productCategoryItemRepository->save($categoryItem, true);
+        }
+
+        return $this->json([]);
+    }
+
+    /**
+     * @Route("/api/v1/private/product-category-item/find-by-product", methods={"POST"})
+     */
+    public function findByProduct(
+        Request $httpRequest,
+        ProductRepository $productRepository,
+        ProductCategoryItemRepository $productCategoryItemRepository
+    ) {
+        $rp = $httpRequest->toArray();
+        $productId = $rp['productId'] ?? null;
+
+        $product = $productRepository->findOneBy(['id' => $productId]);
+
+        $categoryItem = $productCategoryItemRepository->findOneBy(['product' => $product]);
+
+        if (is_null($categoryItem)) {
+            throw new NotFoundHttpException();
+        }
+
+        $category = $categoryItem->getCategory();
+
+        return $this->json([
+            'categoryItemId' => $categoryItem->getId(),
+            'productCategoryId' => $category ? $category->getId() : null
+        ]);
     }
 }
