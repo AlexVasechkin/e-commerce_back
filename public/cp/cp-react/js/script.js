@@ -4873,6 +4873,150 @@ const DataTable = _ref => {
 
 /***/ }),
 
+/***/ "./src/components/common/product-category/create-product-category-modal/create-product-category-form/index.js":
+/*!********************************************************************************************************************!*\
+  !*** ./src/components/common/product-category/create-product-category-modal/create-product-category-form/index.js ***!
+  \********************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+
+
+
+const CreateProductCategoryForm = _ref => {
+  let {
+    onSuccess,
+    productCategoryDict
+  } = _ref;
+  const [id, setId] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [name, setName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [parentId, setParentId] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [isAwait, setIsAwait] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+
+  const onSubmit = e => {
+    e.preventDefault();
+    setIsAwait(true);
+    axios__WEBPACK_IMPORTED_MODULE_1__["default"].post('/api/v1/private/product-category/create', {
+      name,
+      parentId
+    }).then(_ref2 => {
+      let {
+        data = {}
+      } = _ref2;
+      const {
+        id = null
+      } = data;
+      setId(id);
+      onSuccess(id);
+    }).finally(() => setIsAwait(false));
+  };
+
+  const getForm = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
+    onSubmit: onSubmit
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    type: "text",
+    className: 'form-control',
+    value: `${name}`,
+    disabled: isAwait,
+    onChange: e => setName(e.target.value)
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "\u0420\u043E\u0434\u0438\u0442\u0435\u043B\u044C\u0441\u043A\u0430\u044F \u043A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    options: productCategoryDict,
+    value: parentId ? productCategoryDict.find(el => el.id == parentId) : null,
+    onChange: e => setParentId(e ? parseInt(e.value) : e),
+    placeholder: 'Родительская категория',
+    isClearable: true
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    type: "submit",
+    disabled: isAwait,
+    className: "btn btn-outline-success"
+  }, "\u0421\u043E\u0437\u0434\u0430\u0442\u044C")));
+
+  const resetForm = () => {
+    setId(null);
+    setName('');
+    setParentId(null);
+  };
+
+  const getFinishScreen = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "text-center"
+  }, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F \u0443\u0441\u043F\u0435\u0448\u043D\u043E \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0430!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "text-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: "btn btn-outline-info",
+    onClick: resetForm
+  }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0435\u0449\u0435")));
+
+  return id ? getFinishScreen() : getForm();
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CreateProductCategoryForm);
+
+/***/ }),
+
+/***/ "./src/components/common/product-category/create-product-category-modal/index.js":
+/*!***************************************************************************************!*\
+  !*** ./src/components/common/product-category/create-product-category-modal/index.js ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Modal.js");
+/* harmony import */ var _create_product_category_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create-product-category-form */ "./src/components/common/product-category/create-product-category-modal/create-product-category-form/index.js");
+
+
+
+
+const CreateProductCategoryModal = _ref => {
+  let {
+    btnClasses = '',
+    onSuccess = id => {},
+    productCategoryDict
+  } = _ref;
+  const [visible, setVisible] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+
+  const close = () => setVisible(false);
+
+  const show = () => setVisible(true);
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: btnClasses,
+    onClick: show
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
+    className: "fa fa-plus"
+  }), " \u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    show: visible,
+    onHide: close
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Header, {
+    closeButton: true
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Title, null, "\u0414\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0438\u0435 \u043A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u0438 \u0442\u043E\u0432\u0430\u0440\u043E\u0432")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_create_product_category_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    productCategoryDict: productCategoryDict,
+    onSuccess: onSuccess
+  }))));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CreateProductCategoryModal);
+
+/***/ }),
+
 /***/ "./src/components/common/product-page/create-product-page-modal/create-product-page-form/index.js":
 /*!********************************************************************************************************!*\
   !*** ./src/components/common/product-page/create-product-page-modal/create-product-page-form/index.js ***!
@@ -6784,6 +6928,329 @@ _components_product_editor_components_update_product_form_state__WEBPACK_IMPORTE
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (productCardStateInstance);
+
+/***/ }),
+
+/***/ "./src/components/product-category-editor/components/create-product-category-modal/index.js":
+/*!**************************************************************************************************!*\
+  !*** ./src/components/product-category-editor/components/create-product-category-modal/index.js ***!
+  \**************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _common_product_category_create_product_category_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../common/product-category/create-product-category-modal */ "./src/components/common/product-category/create-product-category-modal/index.js");
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../state */ "./src/components/product-category-editor/state.js");
+
+
+
+
+const ProductCategoryEditorCreateProductCategoryModal = _ref => {
+  let {
+    productCategoryDict
+  } = _ref;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_common_product_category_create_product_category_modal__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    productCategoryDict: productCategoryDict,
+    btnClasses: 'btn btn-outline-info',
+    onSuccess: () => _state__WEBPACK_IMPORTED_MODULE_2__["default"].reloadProductCategories()
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductCategoryEditorCreateProductCategoryModal);
+
+/***/ }),
+
+/***/ "./src/components/product-category-editor/components/product-category-table/index.js":
+/*!*******************************************************************************************!*\
+  !*** ./src/components/product-category-editor/components/product-category-table/index.js ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _common_data_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../common/data-table */ "./src/components/common/data-table/index.js");
+/* harmony import */ var _product_category_table_row__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./product-category-table-row */ "./src/components/product-category-editor/components/product-category-table/product-category-table-row/index.js");
+
+
+
+
+const ProductCategoryTable = _ref => {
+  let {
+    dataSet = [],
+    productCategoryDict = []
+  } = _ref;
+
+  const getHead = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "ID"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u0420\u043E\u0434\u0438\u0442\u0435\u043B\u044C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u0410\u043A\u0442\u0438\u0432\u043D\u043E"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u044F"));
+
+  const wrapRow = row => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_product_category_table_row__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    row: row,
+    key: `pc${row.id}`,
+    productCategoryDict: productCategoryDict
+  });
+
+  const getBody = () => dataSet.map(row => wrapRow(row));
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_common_data_table__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    getHead: getHead,
+    getBody: getBody
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductCategoryTable);
+
+/***/ }),
+
+/***/ "./src/components/product-category-editor/components/product-category-table/product-category-table-row/index.js":
+/*!**********************************************************************************************************************!*\
+  !*** ./src/components/product-category-editor/components/product-category-table/product-category-table-row/index.js ***!
+  \**********************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+
+
+
+const ProductCategoryTableRow = _ref => {
+  let {
+    row = {
+      id: 0,
+      name: '',
+      parentId: 0,
+      isActive: false
+    },
+    productCategoryDict = [],
+    updateDsRow = (id, data) => {}
+  } = _ref;
+  const {
+    id = null
+  } = row;
+  const [isAwait, setIsAwait] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [name, setName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)();
+  const [parentId, setParentId] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [isActive, setIsActive] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+
+  const setInitialValues = () => {
+    setName(row.name ?? '');
+    setParentId(row.parentId ?? null);
+    setIsActive(row.isActive ?? false);
+  };
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    setInitialValues();
+  }, []);
+
+  const save = () => {
+    setIsAwait(true);
+    axios__WEBPACK_IMPORTED_MODULE_1__["default"].post('/api/v1/private/product-category/update', {
+      id,
+      name,
+      parentId: parentId ?? 0,
+      isActive
+    }).then(() => {
+      updateDsRow(id, {
+        name,
+        parentId,
+        isActive
+      });
+    }).catch(() => setInitialValues()).finally(() => setIsAwait(false));
+  };
+
+  const getParentSelectComponent = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    options: productCategoryDict,
+    isDisabled: isAwait,
+    isClearable: true,
+    placeholder: "\u041D\u0435\u0442",
+    value: parentId ? productCategoryDict.find(el => el.value == parentId) : null,
+    onChange: v => setParentId(v ? parseInt(v.value) : v)
+  });
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, `${id ?? ''}`), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, getParentSelectComponent()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    type: "text",
+    className: "form-control",
+    value: `${name}`,
+    disabled: isAwait,
+    onChange: e => setName(e.target.value)
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    type: "checkbox",
+    disabled: isAwait,
+    checked: isActive,
+    onClick: () => setIsActive(!isActive),
+    onChange: () => null
+  }), " \u0410\u043A\u0442\u0438\u0432\u043D\u043E")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "btn-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    disabled: isAwait,
+    className: "btn btn-outline-success",
+    onClick: () => save()
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
+    className: "fa fa-save"
+  })))));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductCategoryTableRow);
+
+/***/ }),
+
+/***/ "./src/components/product-category-editor/index.js":
+/*!*********************************************************!*\
+  !*** ./src/components/product-category-editor/index.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./state */ "./src/components/product-category-editor/state.js");
+/* harmony import */ var mobx_react_lite__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! mobx-react-lite */ "./node_modules/mobx-react-lite/es/index.js");
+/* harmony import */ var _components_create_product_category_modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/create-product-category-modal */ "./src/components/product-category-editor/components/create-product-category-modal/index.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Spinner.js");
+/* harmony import */ var _components_product_category_table__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/product-category-table */ "./src/components/product-category-editor/components/product-category-table/index.js");
+
+
+
+
+
+
+
+const ProductCategoryEditor = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_3__.observer)(() => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "col-lg-12"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "card m-b-30"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "card-header"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "row align-items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "col-6"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
+    className: "card-title mb-0"
+  }, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u0438 \u0442\u043E\u0432\u0430\u0440\u043E\u0432")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "card-body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "text-right m-b-15"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_create_product_category_modal__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    productCategoryDict: _state__WEBPACK_IMPORTED_MODULE_2__["default"].productCategoryDict
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, _state__WEBPACK_IMPORTED_MODULE_2__["default"].isAwait ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "text-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    animation: 'border'
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_product_category_table__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    dataSet: _state__WEBPACK_IMPORTED_MODULE_2__["default"].productCategories,
+    productCategoryDict: _state__WEBPACK_IMPORTED_MODULE_2__["default"].productCategoryDict
+  }))))));
+});
+
+const renderProductCategoryEditor = () => {
+  const root = document.getElementById('product__category__editor__root');
+
+  if (root) {
+    _state__WEBPACK_IMPORTED_MODULE_2__["default"].init();
+    react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ProductCategoryEditor, null), root);
+  }
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (renderProductCategoryEditor);
+
+/***/ }),
+
+/***/ "./src/components/product-category-editor/state.js":
+/*!*********************************************************!*\
+  !*** ./src/components/product-category-editor/state.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var mobx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mobx */ "./node_modules/mobx/dist/mobx.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+
+
+class ProductCategoryEditorState {
+  productCategoryDict = [];
+  productCategories = [];
+  isAwait = false;
+
+  reloadProductCategories() {
+    this.isAwait = true;
+    axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/v1/private/product-category/list').then(_ref => {
+      let {
+        data = {}
+      } = _ref;
+      const {
+        payload = []
+      } = data;
+      console.log(payload);
+      this.productCategories = payload;
+    }).finally(() => this.isAwait = false);
+  }
+
+  reloadProductCategoryDict() {
+    axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/v1/private/product-category/dict').then(_ref2 => {
+      let {
+        data = {}
+      } = _ref2;
+      const {
+        payload = []
+      } = data;
+      this.productCategoryDict = payload.map(item => {
+        return {
+          value: item.value,
+          label: item.caption
+        };
+      });
+    });
+  }
+
+  updateDsRow(id, rowData) {
+    const idx = this.productCategories.findIndex(el => el.id == id);
+
+    if (idx > -1) {
+      this.productCategories[idx].name = rowData.name;
+      this.productCategories[idx].parentId = rowData.parentId;
+      this.productCategories[idx].isActive = rowData.isActive;
+    }
+  }
+
+  init() {
+    this.reloadProductCategoryDict();
+    this.reloadProductCategories();
+  }
+
+  constructor() {
+    (0,mobx__WEBPACK_IMPORTED_MODULE_1__.makeAutoObservable)(this);
+  }
+
+}
+
+const productCategoryEditorStateInstance = new ProductCategoryEditorState();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (productCategoryEditorStateInstance);
 
 /***/ }),
 
@@ -61527,6 +61994,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_vendor_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/vendor-editor */ "./src/components/vendor-editor/index.js");
 /* harmony import */ var _components_property_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/property-editor */ "./src/components/property-editor/index.js");
 /* harmony import */ var _components_category_property_editor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/category-property-editor */ "./src/components/category-property-editor/index.js");
+/* harmony import */ var _components_product_category_editor__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/product-category-editor */ "./src/components/product-category-editor/index.js");
+
 
 
 
@@ -61537,6 +62006,7 @@ __webpack_require__.r(__webpack_exports__);
 (0,_components_vendor_editor__WEBPACK_IMPORTED_MODULE_2__["default"])();
 (0,_components_property_editor__WEBPACK_IMPORTED_MODULE_3__["default"])();
 (0,_components_category_property_editor__WEBPACK_IMPORTED_MODULE_4__["default"])();
+(0,_components_product_category_editor__WEBPACK_IMPORTED_MODULE_5__["default"])();
 })();
 
 /******/ })()

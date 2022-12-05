@@ -40,7 +40,7 @@ class ProductCategoryController extends AbstractController
     /**
      * @Route("/api/v1/private/product-category/create", methods={"POST"})
      */
-    private function create(
+    public function create(
         Request $httpRequest,
         ProductCategoryRepository $productCategoryRepository
     ) {
@@ -61,7 +61,7 @@ class ProductCategoryController extends AbstractController
         $productCategoryRepository->save($pc, true);
 
         return $this->json([
-            'payload' => $this->serialize($pc)
+            'id' => $pc->getId()
         ]);
     }
 
@@ -79,7 +79,12 @@ class ProductCategoryController extends AbstractController
             '    ,p.id         as parent_id',
             '    ,p.name       as parent_name',
             '  from product_category as pc',
-            '  left join product_category as p on p.id = pc.parent_id'
+            '  left join product_category as p on p.id = pc.parent_id',
+            '  order by',
+            '     pc.is_active desc',
+            '    ,pc.name',
+            '    ,p.name',
+            ';'
         ]);
 
         return $this->json([
@@ -139,9 +144,7 @@ class ProductCategoryController extends AbstractController
 
         if (isset($rp['parentId'])) {
             $p = $productCategoryRepository->findOneBy(['id' => $rp['parentId']]);
-            if ($p) {
-                $pc->setParent($p);
-            }
+            $pc->setParent($p);
         }
 
         $productCategoryRepository->save($pc, true);
