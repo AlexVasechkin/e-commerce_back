@@ -84,14 +84,19 @@ class Product
     private $modelItem;
 
     /**
-     * @ORM\OneToOne(targetEntity=Webpage::class, mappedBy="product", cascade={"persist", "remove"})
-     */
-    private $webpage;
-
-    /**
      * @ORM\Column(type="integer", nullable=false, options={"unsigned":true, "default":0})
      */
     private $count;
+
+    /**
+     * @ORM\OneToOne(targetEntity=ProductWebpage::class, mappedBy="product", cascade={"persist", "remove"})
+     */
+    private $productWebpage;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $price;
 
     public function __construct()
     {
@@ -295,28 +300,6 @@ class Product
         return $this;
     }
 
-    public function getWebpage(): ?Webpage
-    {
-        return $this->webpage;
-    }
-
-    public function setWebpage(?Webpage $webpage): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($webpage === null && $this->webpage !== null) {
-            $this->webpage->setProduct(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($webpage !== null && $webpage->getProduct() !== $this) {
-            $webpage->setProduct($this);
-        }
-
-        $this->webpage = $webpage;
-
-        return $this;
-    }
-
     public function getCount(): ?int
     {
         return $this->count;
@@ -325,6 +308,35 @@ class Product
     public function setCount(int $count): self
     {
         $this->count = $count;
+
+        return $this;
+    }
+
+    public function getProductWebpage(): ?ProductWebpage
+    {
+        return $this->productWebpage;
+    }
+
+    public function setProductWebpage(ProductWebpage $productWebpage): self
+    {
+        // set the owning side of the relation if necessary
+        if ($productWebpage->getProduct() !== $this) {
+            $productWebpage->setProduct($this);
+        }
+
+        $this->productWebpage = $productWebpage;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?int $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

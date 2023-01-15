@@ -73,13 +73,15 @@ class ProductCategoryController extends AbstractController
     ) {
         $query = implode(PHP_EOL, [
             'select',
-            '     pc.id        as id',
-            '    ,pc.name      as name',
-            '    ,pc.is_active as is_active',
-            '    ,p.id         as parent_id',
-            '    ,p.name       as parent_name',
+            '     pc.id          as id',
+            '    ,pc.name        as name',
+            '    ,pc.is_active   as is_active',
+            '    ,p.id           as parent_id',
+            '    ,p.name         as parent_name',
+            '    ,cw.webpage_id  as webpage_id',
             '  from product_category as pc',
             '  left join product_category as p on p.id = pc.parent_id',
+            '  left join category_webpage as cw on cw.category_id = pc.id',
             '  order by',
             '     pc.is_active desc',
             '    ,pc.name',
@@ -94,7 +96,8 @@ class ProductCategoryController extends AbstractController
                     'name' => $item['name'],
                     'isActive' => $item['is_active'],
                     'parentId' => $item['parent_id'],
-                    'parentName' => $item['parent_name']
+                    'parentName' => $item['parent_name'],
+                    'webpageId' => $item['webpage_id']
                 ];
             }, $connection->fetchAllAssociative($query))
         ]);

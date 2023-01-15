@@ -2,6 +2,8 @@
 
 namespace App\Controller\Api\V1;
 
+use App\Application\Actions\Product\Elasticsearch\DTO\UpdateElasticsearchProductRequest;
+use App\Application\Actions\Product\Elasticsearch\UpdateElasticsearchProductAction;
 use App\Entity\CategoryProperty;
 use App\Entity\ProductPropertyValue;
 use App\Repository\CategoryPropertyRepository;
@@ -21,7 +23,8 @@ class ProductPropertyValueController extends AbstractController
         Request $httpRequest,
         CategoryPropertyRepository $categoryPropertyRepository,
         ProductRepository $productRepository,
-        ProductPropertyValueRepository $productPropertyValueRepository
+        ProductPropertyValueRepository $productPropertyValueRepository,
+        UpdateElasticsearchProductAction $updateElasticsearchProductAction
     ) {
         $requestParams = $httpRequest->toArray();
 
@@ -51,6 +54,14 @@ class ProductPropertyValueController extends AbstractController
         $productPropertyValueRepository->save(
             $propertyValue->setValue($property, $value)
             , true
+        );
+
+        $updateElasticsearchProductAction->execute(
+            (new UpdateElasticsearchProductRequest($productId))
+                ->addProperty([
+                    'propertyId' => intval($propertyId),
+                    'value' => $value
+                ])
         );
 
         return $this->json([

@@ -4655,6 +4655,135 @@ const categoryPropertyEditorStateInstance = new CategoryPropertyEditorState();
 
 /***/ }),
 
+/***/ "./src/components/common/category-page/create-category-page-modal/create-category-page-form/index.js":
+/*!***********************************************************************************************************!*\
+  !*** ./src/components/common/category-page/create-category-page-modal/create-category-page-form/index.js ***!
+  \***********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+
+
+const CreateCategoryPageForm = _ref => {
+  let {
+    categoryId,
+    onSuccess = () => null
+  } = _ref;
+  const [id, setId] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [name, setName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [alias, setAlias] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [isAwait, setIsAwait] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+
+  const onSubmit = e => {
+    e.preventDefault();
+    setIsAwait(true);
+    axios__WEBPACK_IMPORTED_MODULE_1__["default"].post('/api/v1/private/category-page/create', {
+      categoryId,
+      name,
+      alias
+    }).then(_ref2 => {
+      let {
+        data = {}
+      } = _ref2;
+      const {
+        id = null
+      } = data;
+      setId(id);
+      onSuccess();
+    }).finally(() => setIsAwait(false));
+  };
+
+  const getForm = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
+    onSubmit: onSubmit
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: 'form-group'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "\u0412\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0435\u0435 \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u0435"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    type: "text",
+    className: 'form-control',
+    disabled: isAwait,
+    value: name,
+    onChange: e => setName(e.target.value)
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: 'form-group'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "\u0421\u0441\u044B\u043B\u043A\u0430"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    type: "text",
+    className: 'form-control',
+    disabled: isAwait,
+    value: alias,
+    onChange: e => setAlias(e.target.value)
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: 'form-group text-right'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    type: 'submit',
+    disabled: isAwait,
+    className: 'btn btn-outline-success'
+  }, "\u0421\u043E\u0437\u0434\u0430\u0442\u044C")));
+
+  const getFinishScreen = () => {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: 'text-center'
+    }, "\u0413\u043E\u0442\u043E\u0432\u043E!");
+  };
+
+  return id ? getFinishScreen() : getForm();
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CreateCategoryPageForm);
+
+/***/ }),
+
+/***/ "./src/components/common/category-page/create-category-page-modal/index.js":
+/*!*********************************************************************************!*\
+  !*** ./src/components/common/category-page/create-category-page-modal/index.js ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Modal.js");
+/* harmony import */ var _create_category_page_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create-category-page-form */ "./src/components/common/category-page/create-category-page-modal/create-category-page-form/index.js");
+
+
+
+
+const CreateCategoryPageModal = _ref => {
+  let {
+    categoryId,
+    triggerComponent,
+    onSuccess
+  } = _ref;
+  const [visible, setVisible] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+
+  const close = () => setVisible(false);
+
+  const show = () => setVisible(true);
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, triggerComponent(show), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    show: visible,
+    onHide: close
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Header, {
+    closeButton: true
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Title, null, "\u0421\u043E\u0437\u0434\u0430\u043D\u0438\u0435 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B \u043A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u0438")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_create_category_page_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    categoryId: categoryId,
+    onSuccess: onSuccess
+  }))));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CreateCategoryPageModal);
+
+/***/ }),
+
 /***/ "./src/components/common/category-property/create-category-property-modal/create-category-property-form/index.js":
 /*!***********************************************************************************************************************!*\
   !*** ./src/components/common/category-property/create-category-property-modal/create-category-property-form/index.js ***!
@@ -5397,6 +5526,203 @@ const CreateVendorModal = _ref => {
 
 /***/ }),
 
+/***/ "./src/components/common/webpage/update-webpage-modal/index.js":
+/*!*********************************************************************!*\
+  !*** ./src/components/common/webpage/update-webpage-modal/index.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Modal.js");
+/* harmony import */ var _update_webpage_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./update-webpage-form */ "./src/components/common/webpage/update-webpage-modal/update-webpage-form/index.js");
+
+
+
+
+const UpdateWebpageModal = _ref => {
+  let {
+    id,
+    getTriggerComponent,
+    onSuccess
+  } = _ref;
+  const [visible, setVisible] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+
+  const close = () => setVisible(false);
+
+  const show = () => setVisible(true);
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, getTriggerComponent(show), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    show: visible,
+    onHide: close
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Header, {
+    closeButton: true
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Title, null, "\u0414\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0438\u0435 \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u0442\u0435\u043B\u044F")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_update_webpage_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    id: id,
+    onSuccess: onSuccess
+  }))));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UpdateWebpageModal);
+
+/***/ }),
+
+/***/ "./src/components/common/webpage/update-webpage-modal/update-webpage-form/index.js":
+/*!*****************************************************************************************!*\
+  !*** ./src/components/common/webpage/update-webpage-modal/update-webpage-form/index.js ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+
+
+const UpdateWebpageForm = _ref => {
+  let {
+    id,
+    onSuccess
+  } = _ref;
+  const [isAwait, setIsAwait] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [name, setName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [pagetitle, setPagetitle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [headline, setHeadline] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [description, setDescription] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [content, setContent] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [alias, setAlias] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [isActive, setIsActive] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+
+  const reloadData = id => {
+    setIsAwait(true);
+    axios__WEBPACK_IMPORTED_MODULE_1__["default"].post(`/api/v1/private/webpage/${id}`).then(_ref2 => {
+      let {
+        data = {}
+      } = _ref2;
+      const {
+        payload = {}
+      } = data;
+      const {
+        name = '',
+        pagetitle = '',
+        headline = '',
+        description = '',
+        content = '',
+        alias = '',
+        isActive = false
+      } = payload;
+      setName(name);
+      setPagetitle(pagetitle);
+      setHeadline(headline);
+      setDescription(description);
+      setContent(content);
+      setAlias(alias);
+      setIsActive(isActive);
+    }).finally(() => setIsAwait(false));
+  };
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    reloadData(id);
+  }, []);
+
+  const onSubmit = e => {
+    e.preventDefault();
+    setIsAwait(true);
+    axios__WEBPACK_IMPORTED_MODULE_1__["default"].post('/api/v1/private/webpage/update', {
+      id,
+      name,
+      pagetitle,
+      headline,
+      description,
+      content,
+      alias,
+      isActive
+    }).then(() => {
+      onSuccess(id);
+    }).finally(() => setIsAwait(false));
+  };
+
+  const getForm = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
+    onSubmit: onSubmit
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    type: "text",
+    disabled: isAwait,
+    className: "form-control",
+    value: name,
+    onChange: e => setName(e.target.value)
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "\u0422\u0438\u0442\u0443\u043B \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    type: "text",
+    disabled: isAwait,
+    className: "form-control",
+    value: pagetitle,
+    onChange: e => setPagetitle(e.target.value)
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    type: "text",
+    disabled: isAwait,
+    className: "form-control",
+    value: headline,
+    onChange: e => setHeadline(e.target.value)
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("textarea", {
+    disabled: isAwait,
+    className: "form-control",
+    value: description,
+    onChange: e => setDescription(e.target.value),
+    rows: 5
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "\u0421\u043E\u0434\u0435\u0440\u0436\u0438\u043C\u043E\u0435"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("textarea", {
+    disabled: isAwait,
+    className: "form-control",
+    value: content,
+    onChange: e => setContent(e.target.value),
+    rows: 5
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "\u0421\u0441\u044B\u043B\u043A\u0430"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    type: "text",
+    disabled: isAwait,
+    className: "form-control",
+    value: alias,
+    onChange: e => setAlias(e.target.value)
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    type: "checkbox",
+    disabled: isAwait,
+    checked: isActive,
+    onClick: () => setIsActive(!isActive),
+    onChange: e => null
+  }), " \u0410\u043A\u0442\u0438\u0432\u043D\u043E")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "form-group text-right"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    type: 'submit',
+    disabled: isAwait,
+    className: "btn btn-outline-success"
+  }, "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C")));
+
+  return getForm();
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UpdateWebpageForm);
+
+/***/ }),
+
 /***/ "./src/components/product-card/components/create-product-image-modal/components/create-product-image-form/index.js":
 /*!*************************************************************************************************************************!*\
   !*** ./src/components/product-card/components/create-product-image-modal/components/create-product-image-form/index.js ***!
@@ -5564,7 +5890,8 @@ __webpack_require__.r(__webpack_exports__);
 
 const CreateProductForm = _ref => {
   let {
-    getVendors = () => []
+    getVendors = () => [],
+    onSuccess = id => null
   } = _ref;
   const [isAwait, setIsAwait] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [code, setCode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
@@ -5587,6 +5914,7 @@ const CreateProductForm = _ref => {
       setId(id);
       setCode('');
       setVendorId(null);
+      onSuccess(id);
     }).finally(() => setIsAwait(false));
   };
 
@@ -5663,7 +5991,8 @@ __webpack_require__.r(__webpack_exports__);
 const CreateProductModal = _ref => {
   let {
     getVendors = () => [],
-    btnClasses = ''
+    btnClasses = '',
+    onSuccess = id => null
   } = _ref;
   const [visible, setVisible] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
 
@@ -5682,7 +6011,8 @@ const CreateProductModal = _ref => {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Header, {
     closeButton: true
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Title, null, "\u0421\u043E\u0437\u0434\u0430\u043D\u0438\u0435 \u0442\u043E\u0432\u0430\u0440\u0430")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_create_product_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    getVendors: getVendors
+    getVendors: getVendors,
+    onSuccess: onSuccess
   }))));
 };
 
@@ -5880,6 +6210,14 @@ const UpdateProductForm = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_1__.observ
     onChange: e => _state__WEBPACK_IMPORTED_MODULE_2__["default"].formData.name = e.target.value
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "\u0426\u0435\u043D\u0430"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    type: "number",
+    disabled: _state__WEBPACK_IMPORTED_MODULE_2__["default"].isAwait,
+    className: "form-control",
+    value: _state__WEBPACK_IMPORTED_MODULE_2__["default"].formData.price,
+    onChange: e => _state__WEBPACK_IMPORTED_MODULE_2__["default"].formData.price = parseInt(e.target.value)
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "form-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
     type: "number",
     disabled: _state__WEBPACK_IMPORTED_MODULE_2__["default"].isAwait,
@@ -5953,6 +6291,8 @@ class UpdateProductFormState {
     code: '',
     vendorId: null,
     name: '',
+    count: 0,
+    price: 0,
     length: 0,
     width: 0,
     height: 0,
@@ -6931,6 +7271,45 @@ _components_product_editor_components_update_product_form_state__WEBPACK_IMPORTE
 
 /***/ }),
 
+/***/ "./src/components/product-category-editor/components/create-category-page-modal/index.js":
+/*!***********************************************************************************************!*\
+  !*** ./src/components/product-category-editor/components/create-category-page-modal/index.js ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _common_category_page_create_category_page_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../common/category-page/create-category-page-modal */ "./src/components/common/category-page/create-category-page-modal/index.js");
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../state */ "./src/components/product-category-editor/state.js");
+
+
+
+
+const ProductCategoryEditorCreateCategoryPageModal = _ref => {
+  let {
+    categoryId
+  } = _ref;
+
+  const triggerComponent = show => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: 'btn btn-outline-light',
+    onClick: show
+  }, "\u0421\u043E\u0437\u0434\u0430\u0442\u044C");
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_common_category_page_create_category_page_modal__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    categoryId: categoryId,
+    triggerComponent: triggerComponent,
+    onSuccess: () => _state__WEBPACK_IMPORTED_MODULE_2__["default"].reloadProductCategories()
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductCategoryEditorCreateCategoryPageModal);
+
+/***/ }),
+
 /***/ "./src/components/product-category-editor/components/create-product-category-modal/index.js":
 /*!**************************************************************************************************!*\
   !*** ./src/components/product-category-editor/components/create-product-category-modal/index.js ***!
@@ -6988,7 +7367,7 @@ const ProductCategoryTable = _ref => {
     productCategoryDict = []
   } = _ref;
 
-  const getHead = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "ID"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u0420\u043E\u0434\u0438\u0442\u0435\u043B\u044C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u0410\u043A\u0442\u0438\u0432\u043D\u043E"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u044F"));
+  const getHead = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "ID"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u0420\u043E\u0434\u0438\u0442\u0435\u043B\u044C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u0410\u043A\u0442\u0438\u0432\u043D\u043E"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u0430"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u044F"));
 
   const wrapRow = row => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_product_category_table_row__WEBPACK_IMPORTED_MODULE_2__["default"], {
     row: row,
@@ -7020,8 +7399,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js");
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var _create_category_page_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../create-category-page-modal */ "./src/components/product-category-editor/components/create-category-page-modal/index.js");
+/* harmony import */ var _update_category_page_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../update-category-page-modal */ "./src/components/product-category-editor/components/update-category-page-modal/index.js");
+
+
 
 
 
@@ -7032,7 +7415,8 @@ const ProductCategoryTableRow = _ref => {
       id: 0,
       name: '',
       parentId: 0,
-      isActive: false
+      isActive: false,
+      webpageId: null
     },
     productCategoryDict = [],
     updateDsRow = (id, data) => {}
@@ -7071,7 +7455,7 @@ const ProductCategoryTableRow = _ref => {
     }).catch(() => setInitialValues()).finally(() => setIsAwait(false));
   };
 
-  const getParentSelectComponent = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  const getParentSelectComponent = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_select__WEBPACK_IMPORTED_MODULE_4__["default"], {
     options: productCategoryDict,
     isDisabled: isAwait,
     isClearable: true,
@@ -7092,7 +7476,11 @@ const ProductCategoryTableRow = _ref => {
     checked: isActive,
     onClick: () => setIsActive(!isActive),
     onChange: () => null
-  }), " \u0410\u043A\u0442\u0438\u0432\u043D\u043E")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }), " \u0410\u043A\u0442\u0438\u0432\u043D\u043E")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, row.webpageId ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_update_category_page_modal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    id: row.webpageId
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_create_category_page_modal__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    categoryId: id
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "btn-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     disabled: isAwait,
@@ -7104,6 +7492,47 @@ const ProductCategoryTableRow = _ref => {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductCategoryTableRow);
+
+/***/ }),
+
+/***/ "./src/components/product-category-editor/components/update-category-page-modal/index.js":
+/*!***********************************************************************************************!*\
+  !*** ./src/components/product-category-editor/components/update-category-page-modal/index.js ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _common_webpage_update_webpage_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../common/webpage/update-webpage-modal */ "./src/components/common/webpage/update-webpage-modal/index.js");
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../state */ "./src/components/product-category-editor/state.js");
+
+
+
+
+const ProductCategoryEditorUpdateCategoryPageModal = _ref => {
+  let {
+    id
+  } = _ref;
+
+  const triggerComponent = show => {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+      className: "btn btn-outline-light",
+      onClick: () => show()
+    }, "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C");
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_common_webpage_update_webpage_modal__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    id: id,
+    getTriggerComponent: triggerComponent,
+    onSuccess: () => _state__WEBPACK_IMPORTED_MODULE_2__["default"].reloadProductCategories()
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductCategoryEditorUpdateCategoryPageModal);
 
 /***/ }),
 
@@ -7275,7 +7704,8 @@ __webpack_require__.r(__webpack_exports__);
 const CreateProductModalForProductList = () => {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_product_card_components_create_product_modal__WEBPACK_IMPORTED_MODULE_1__["default"], {
     getVendors: () => _state__WEBPACK_IMPORTED_MODULE_2__["default"].vendors,
-    btnClasses: 'btn btn-outline-info'
+    btnClasses: 'btn btn-outline-info',
+    onSuccess: () => _state__WEBPACK_IMPORTED_MODULE_2__["default"].reloadProducts()
   });
 };
 

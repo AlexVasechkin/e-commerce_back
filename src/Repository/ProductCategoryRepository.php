@@ -38,4 +38,19 @@ class ProductCategoryRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function fetchAll(): array
+    {
+        $query = implode(PHP_EOL, [
+            'select *',
+            '  from product_category as t',
+            '  order by',
+            '     t.id',
+            ';',
+        ]);
+
+        return $this->getEntityManager()->getConnection()
+            ->fetchAllAssociative($query)
+        ;
+    }
 }

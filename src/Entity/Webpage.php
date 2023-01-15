@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(
  *     uniqueConstraints={
  *         @ORM\UniqueConstraint(name="ix_uq_webpage_name", columns={"name"}),
- *         @ORM\UniqueConstraint(name="ix_uq_webpage_alias", columns={"alias", "product_id"})
+ *         @ORM\UniqueConstraint(name="ix_uq_webpage_alias", columns={"alias"})
  *     }
  * )
  * @ORM\Entity(repositoryClass=WebpageRepository::class)
@@ -66,14 +66,19 @@ class Webpage
     private $children;
 
     /**
-     * @ORM\OneToOne(targetEntity=Product::class, inversedBy="webpage", cascade={"persist", "remove"})
-     */
-    private $product;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $isActive;
+
+    /**
+     * @ORM\OneToOne(targetEntity=ProductWebpage::class, mappedBy="webpage", cascade={"persist", "remove"})
+     */
+    private $productWebpage;
+
+    /**
+     * @ORM\OneToOne(targetEntity=CategoryWebpage::class, mappedBy="webpage", cascade={"persist", "remove"})
+     */
+    private $categoryWebpage;
 
     public function __construct()
     {
@@ -199,18 +204,6 @@ class Webpage
         return $this;
     }
 
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
     public function getIsActive(): ?bool
     {
         return $this->isActive;
@@ -219,6 +212,40 @@ class Webpage
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getProductWebpage(): ?ProductWebpage
+    {
+        return $this->productWebpage;
+    }
+
+    public function setProductWebpage(ProductWebpage $productWebpage): self
+    {
+        // set the owning side of the relation if necessary
+        if ($productWebpage->getWebpage() !== $this) {
+            $productWebpage->setWebpage($this);
+        }
+
+        $this->productWebpage = $productWebpage;
+
+        return $this;
+    }
+
+    public function getCategoryWebpage(): ?CategoryWebpage
+    {
+        return $this->categoryWebpage;
+    }
+
+    public function setCategoryWebpage(CategoryWebpage $categoryWebpage): self
+    {
+        // set the owning side of the relation if necessary
+        if ($categoryWebpage->getWebpage() !== $this) {
+            $categoryWebpage->setWebpage($this);
+        }
+
+        $this->categoryWebpage = $categoryWebpage;
 
         return $this;
     }

@@ -56,6 +56,11 @@ class ProductCategory
      */
     private $modelItems;
 
+    /**
+     * @ORM\OneToOne(targetEntity=CategoryWebpage::class, mappedBy="category", cascade={"persist", "remove"})
+     */
+    private $categoryWebpage;
+
     public function __construct()
     {
         $this->productCategories = new ArrayCollection();
@@ -219,6 +224,23 @@ class ProductCategory
                 $modelItem->setProductCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategoryWebpage(): ?CategoryWebpage
+    {
+        return $this->categoryWebpage;
+    }
+
+    public function setCategoryWebpage(CategoryWebpage $categoryWebpage): self
+    {
+        // set the owning side of the relation if necessary
+        if ($categoryWebpage->getCategory() !== $this) {
+            $categoryWebpage->setCategory($this);
+        }
+
+        $this->categoryWebpage = $categoryWebpage;
 
         return $this;
     }

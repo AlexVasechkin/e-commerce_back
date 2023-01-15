@@ -6,9 +6,17 @@
 parameters:
     app.env: '%env(APP_ENV)%'
 
+    app.project.name: '%env(PROJECT_NAME)%'
+    app.project.legal_name: '%env(PROJECT_LEGAL_NAME)%'
+
     app.object_storage.key_id: '%env(OBJECT_STORAGE_KEY_ID)%'
     app.object_storage.secret_key: '%env(OBJECT_STORAGE_SECRET_KEY)%'
     app.object_storage.bucket: '%env(OBJECT_STORAGE_BUCKET)%'
+
+    app.email.from: '%env(EMAIL_FROM)%'
+    app.jwt.secret: '%env(JWT_SECRET)%'
+
+    app.redis_dsn: '%env(REDIS_DSN)%'
 
 services:
     # default configuration for services in *this* file

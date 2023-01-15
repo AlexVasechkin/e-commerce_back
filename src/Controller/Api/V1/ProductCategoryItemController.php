@@ -2,6 +2,8 @@
 
 namespace App\Controller\Api\V1;
 
+use App\Application\Actions\Product\Elasticsearch\DTO\UpdateElasticsearchProductRequest;
+use App\Application\Actions\Product\Elasticsearch\UpdateElasticsearchProductAction;
 use App\Entity\ProductCategoryItem;
 use App\Repository\ProductCategoryItemRepository;
 use App\Repository\ProductCategoryRepository;
@@ -20,20 +22,26 @@ class ProductCategoryItemController extends AbstractController
         Request $httpRequest,
         ProductCategoryItemRepository $productCategoryItemRepository,
         ProductCategoryRepository $productCategoryRepository,
-        ProductRepository $productRepository
+        ProductRepository $productRepository,
+        UpdateElasticsearchProductAction $updateElasticsearchProductAction
     ) {
         $requestParams = $httpRequest->toArray();
 
+        $product = $productRepository->findOneBy(['id' => $requestParams['productId']]);
+
         $item = (new ProductCategoryItem())
-            ->setProduct(
-                $productRepository->findOneBy(['id' => $requestParams['productId']])
-            )
+            ->setProduct($product)
             ->setCategory(
                 $productCategoryRepository->findOneBy(['id' => $requestParams['categoryId']])
             )
         ;
 
         $productCategoryItemRepository->save($item, true);
+
+        $updateElasticsearchProductAction->execute(
+            (new UpdateElasticsearchProductRequest($product->getId()))
+                ->setProduct($product)
+        );
 
         return $this->json([
             'id' => $item->getId()->toBase32()
@@ -45,11 +53,20 @@ class ProductCategoryItemController extends AbstractController
      */
     public function delete(
         Request $httpRequest,
-        ProductCategoryItemRepository $productCategoryItemRepository
+        ProductCategoryItemRepository $productCategoryItemRepository,
+        UpdateElasticsearchProductAction $updateElasticsearchProductAction
     ) {
+        $categoryItem = $productCategoryItemRepository->findOneBy(['id' => $httpRequest->toArray()['id']]);
+        $product = $categoryItem->getProduct();
+
         $productCategoryItemRepository->remove(
-            $productCategoryItemRepository->findOneBy(['id' => $httpRequest->toArray()['id']]),
+            $categoryItem,
             true
+        );
+
+        $updateElasticsearchProductAction->execute(
+            (new UpdateElasticsearchProductRequest($product->getId()))
+                ->setProduct($product)
         );
 
         return $this->json([]);
@@ -61,7 +78,9 @@ class ProductCategoryItemController extends AbstractController
     public function update(
         Request $httpRequest,
         ProductCategoryItemRepository $productCategoryItemRepository,
-        ProductCategoryRepository $productCategoryRepository
+        ProductCategoryRepository $productCategoryRepository,
+        ProductRepository $productRepository,
+        UpdateElasticsearchProductAction $updateElasticsearchProductAction
     ) {
         $rp = $httpRequest->toArray();
 
@@ -80,6 +99,12 @@ class ProductCategoryItemController extends AbstractController
 
             $categoryItem->setCategory($category);
             $productCategoryItemRepository->save($categoryItem, true);
+
+            $product = $productRepository->findOneBy(['id' => $categoryItem->getProduct()]);
+            $updateElasticsearchProductAction->execute(
+                (new UpdateElasticsearchProductRequest($product->getId()))
+                    ->setProduct($product)
+            );
         }
 
         return $this->json([]);
