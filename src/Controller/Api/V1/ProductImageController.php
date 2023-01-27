@@ -106,8 +106,7 @@ class ProductImageController extends AbstractController
             'Bucket' => $parameterBag->get('app.object_storage.bucket'),
             'Key' => $fileName
         ]);
-        $fp = fopen($filePath, 'wb');
-        stream_copy_to_stream($response->getBody()->getContentAsResource(), $fp);
+        stream_copy_to_stream($response->getBody()->getContentAsResource(), fopen($filePath, 'wb'));
 
         return new BinaryFileResponse($filePath);
     }

@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ProductController extends AbstractController
 {
@@ -168,14 +169,15 @@ class ProductController extends AbstractController
     public function getProducts(
         ProductRepository $productRepository,
         ProductImageRepository $productImageRepository,
-        VendorRepository $vendorRepository
+        VendorRepository $vendorRepository,
+        ParameterBagInterface $parameterBag
     ) {
         $images = [];
         foreach ($productImageRepository->findAll() as $image) {
             if (!$image->getIsDeleted()) {
                 $images[$image->getProduct()->getId()][] = [
                     'id' => $image->getId()->toBase32(),
-                    'path' => 'http://' . $_SERVER['HTTP_HOST'] . '/product-image/' . $image->getId()->toBase32(),
+                    'path' => sprintf('http%s://', ($parameterBag->get('app.env') === 'dev') ? '' : 's') . (($parameterBag->get('app.env') === 'dev') ? 'localhost:4080' : $_SERVER['HTTP_HOST']) . '/product-image/' . $image->getId()->toBase32(),
                     'description' => $image->getDescription() ?? '',
                     'sortOrder' => $image->getSortOrder()
                 ];
