@@ -177,7 +177,7 @@ class ProductController extends AbstractController
             if (!$image->getIsDeleted()) {
                 $images[$image->getProduct()->getId()][] = [
                     'id' => $image->getId()->toBase32(),
-                    'path' => sprintf('http%s://', ($parameterBag->get('app.env') === 'dev') ? '' : 's') . (($parameterBag->get('app.env') === 'dev') ? 'localhost:4080' : $_SERVER['HTTP_HOST']) . '/product-image/' . $image->getId()->toBase32(),
+                    'path' => $parameterBag->get('app.images_host') . '/product-image/' . $image->getId()->toBase32(),
                     'description' => $image->getDescription() ?? '',
                     'sortOrder' => $image->getSortOrder()
                 ];
