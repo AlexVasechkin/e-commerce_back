@@ -7,6 +7,7 @@ use App\Application\Actions\Product\Elasticsearch\DTO\UpdateElasticsearchProduct
 use App\Application\Actions\Product\Elasticsearch\UpdateElasticsearchProductAction;
 use App\Entity\Product;
 use App\Entity\Vendor;
+use App\Repository\ProductCategoryRepository;
 use App\Repository\ProductImageRepository;
 use App\Repository\ProductRepository;
 use App\Repository\VendorRepository;
@@ -170,7 +171,8 @@ class ProductController extends AbstractController
         ProductRepository $productRepository,
         ProductImageRepository $productImageRepository,
         VendorRepository $vendorRepository,
-        ParameterBagInterface $parameterBag
+        ParameterBagInterface $parameterBag,
+        ProductCategoryRepository $productCategoryRepository
     ) {
         $images = [];
         foreach ($productImageRepository->findAll() as $image) {
@@ -192,14 +194,24 @@ class ProductController extends AbstractController
             ];
         }
 
+        $productCategories = [];
+        foreach ($productCategoryRepository->findAll() as $productCategory) {
+            $productCategories[$productCategory->getId()] = [
+                'id' => $productCategory->getId(),
+                'name' => $productCategory->getName()
+            ];
+        }
+
         return $this->json([
-            'payload' => array_map(function (Product $product) use ($images, $vendors) {
+            'payload' => array_map(function (Product $product) use ($images, $vendors, $productCategories) {
+                $pci = $product->getProductCategoryItems()->first();
                 return [
                     'id' => $product->getId(),
                     'name' => $product->getName(),
                     'price' => $product->getPrice() ?? 0,
                     'images' => $images[$product->getId()] ?? [],
                     'vendor' => $vendors[$product->getVendor()->getId()] ?? [],
+                    'productCategory' => $productCategories[$pci->getCategory()->getId()] ?? []
                 ];
             }, $productRepository->fetchProductsWithPages())
         ]);

@@ -121,10 +121,13 @@ class ProductRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->innerJoin('p.productWebpage', 'pw')
             ->innerJoin('pw.webpage', 'w')
+            ->innerJoin('p.productCategoryItems', 'pci')
             ->where('w.isActive = :isActive')
             ->setParameter('isActive', true)
             ->orderBy('p.count', 'desc')
             ->getQuery()->getResult()
         ;
     }
+
+
 }
