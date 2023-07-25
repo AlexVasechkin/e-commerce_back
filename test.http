@@ -1,0 +1,40 @@
+POST http://127.0.0.1:9200/products/_search
+Content-Type: application/json
+
+{
+  "_source":  true,
+  "query": {
+    "bool": {
+      "must": [
+        {"term": {"category.id": 2}}
+      ]
+    }
+  }
+}
+
+### Clear index
+
+DELETE http://127.0.0.1:9200/products
+
+### d
+POST http://127.0.0.1:4080/api/v1/public/products
+Content-Type: application/json
+
+{
+  "filters": {
+    "categoryId": 2
+  }
+}
+
+### d
+GET http://127.0.0.1:4080/api/v1/public/product-category-pages
+
+### d
+POST http://127.0.0.1:4080/api/v1/public/products
+Content-Type: application/json
+
+{
+  "filters": {
+    "categoryAlias": "kollimatorniye-pricely"
+  }
+}

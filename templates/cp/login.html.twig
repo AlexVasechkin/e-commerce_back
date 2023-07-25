@@ -5,7 +5,7 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Вход в личный кабинет</title>
 </head>
 <body>
   <form id="login-form">
@@ -13,15 +13,25 @@
     <button type="submit">Войти</button>
   </form>
 
+  <div id="message__container"></div>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
   <script>
     $(function () {
       $('#login-form').submit(function (e) {
         e.preventDefault();
+        $('#message__container').text('...ожидание');
         $.post('/api/v1/public/auth-by-email?email=' + $('#email').val(), function (response) {
-          console.log(response);
-        });
+
+          })
+          .done(function () {
+            $('#message__container').html('Ссылка для входа отправлена на почту. У тебя 3 минуты, кожаный ты мешок. Потом карета превратится в тыкву и придется начинать сначала.');
+          })
+          .fail(function () {
+            $('#message__container').html('Ошибка. хз почему, программисты виноваты! А может ты!');
+          })
+        ;
       });
     });
   </script>

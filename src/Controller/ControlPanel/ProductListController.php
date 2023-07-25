@@ -12,6 +12,8 @@ class ProductListController extends AbstractController
      */
     public function main()
     {
-        return $this->render('cp/product-list.html.twig', []);
+        return $this->render('cp/product-list.html.twig', [
+            'title' => 'Список товаров'
+        ]);
     }
 }

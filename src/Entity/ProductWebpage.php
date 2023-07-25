@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\PutProductWebpageInterface;
 use App\Repository\ProductWebpageRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Ulid;
@@ -69,5 +70,13 @@ class ProductWebpage
         $this->webpage = $webpage;
 
         return $this;
+    }
+
+    public function put(PutProductWebpageInterface $request): self
+    {
+        return $this
+            ->setProduct($request->getProduct())
+            ->setWebpage($request->getWebpage())
+        ;
     }
 }

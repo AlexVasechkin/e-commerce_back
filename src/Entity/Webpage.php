@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\PutWebpageInterface;
 use App\Repository\WebpageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -248,5 +249,19 @@ class Webpage
         $this->categoryWebpage = $categoryWebpage;
 
         return $this;
+    }
+
+    public function put(PutWebpageInterface $request): Webpage
+    {
+        return $this
+            ->setName($request->getName())
+            ->setPagetitle($request->getPagetitle())
+            ->setHeadline($request->getHeadline())
+            ->setDescription($request->getDescription())
+            ->setContent($request->getContent())
+            ->setAlias($request->getAlias())
+            ->setParent($request->getParent())
+            ->setIsActive($request->isActive())
+        ;
     }
 }

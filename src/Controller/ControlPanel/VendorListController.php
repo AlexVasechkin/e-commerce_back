@@ -12,6 +12,8 @@ class VendorListController extends AbstractController
      */
     public function index()
     {
-        return $this->render('cp/vendor-list.html.twig', []);
+        return $this->render('cp/vendor-list.html.twig', [
+            'title' => 'Производители'
+        ]);
     }
 }

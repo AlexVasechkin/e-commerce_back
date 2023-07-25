@@ -16,15 +16,19 @@
 		"url": "https://github.com/paulkinzett/toolbar/issues"
 	},
 	"licenses": [
-	{
-        "type": "MIT",
-        "url": "http://github.com/paulkinzett/toolbar/blob/master/LICENSE.txt"
-	}],
+		{
+			"type": "MIT",
+			"url": "http://github.com/paulkinzett/toolbar/blob/master/LICENSE.txt"
+		}
+	],
 	"devDependencies": {
 		"grunt": "~0.4.1",
 		"grunt-contrib-jshint": "~0.1.1",
+		"grunt-contrib-less": "~0.7.0",
 		"grunt-contrib-nodeunit": "~0.1.2",
-		"grunt-contrib-uglify": "~0.2",
-		"grunt-contrib-less": "~0.7.0"
+		"grunt-contrib-uglify": "~0.2"
+	},
+	"dependencies": {
+		"gulp": "^4.0.2"
 	}
 }

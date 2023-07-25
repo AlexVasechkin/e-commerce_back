@@ -3,11 +3,14 @@
 namespace App\Repository;
 
 use App\Entity\Product;
-use App\Entity\ProductWebpage;
-use App\Entity\Webpage;
+use App\Entity\Vendor;
+use App\Message\IndexProductMessage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query\Expr;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Messenger\MessageBusInterface;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @extends ServiceEntityRepository<Product>
@@ -19,15 +22,22 @@ use Doctrine\ORM\Query\Expr;
  */
 class ProductRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    private MessageBusInterface $messageBus;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        MessageBusInterface $messageBus
+    ) {
         parent::__construct($registry, Product::class);
+        $this->messageBus = $messageBus;
     }
 
-    public function save(Product $product): void
+    public function save(Product $product): Product
     {
         $this->getEntityManager()->persist($product);
         $this->getEntityManager()->flush();
+        $this->messageBus->dispatch(new IndexProductMessage($product->getId()));
+        return $product;
     }
 
     public function create(Product $product): Product
@@ -50,17 +60,6 @@ class ProductRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult(), 'id')
         );
-    }
-
-    public function fetchByIdList(array $idList): array
-    {
-        return $this->createQueryBuilder('t')
-            ->select('t.id', 't.code', 't.name')
-            ->where('t.id IN(:idList)')
-            ->setParameter('idList', array_values($idList))
-            ->getQuery()
-            ->getResult()
-        ;
     }
 
     public function filterPropertyIdList(int $productId): array
@@ -129,5 +128,75 @@ class ProductRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findOneByIdOrFail(int $id): Product
+    {
+        $product = $this->findOneBy(['id' => $id]);
 
+        if (!($product instanceof Product)) {
+            throw new \Exception(sprintf('Product[id: %s] not found.', $id));
+        }
+
+        return $product;
+    }
+
+    public function findOneByCodeAndVendorOrFail(string $code, Vendor $vendor): Product
+    {
+        $product = $this->findOneBy(['code' => $code, 'vendor' => $vendor]);
+
+        if (is_null($product)) {
+            throw new \Exception(sprintf('Product[code: "%s", vendor_id: %s] not found', $code, $vendor->getId()));
+        }
+
+        return $product;
+    }
+
+    public function filterByVendors(array $vendorIdList): array
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb->add('where', $qb->expr()->in('p.vendor', $vendorIdList));
+        return $qb->select('p.id')
+            ->getQuery()
+            ->getSingleColumnResult()
+        ;
+    }
+
+    public function filterToParsePrice(): array
+    {
+        $q = implode(PHP_EOL, [
+            'select',
+            '     p.id',
+            '  from product as p',
+            '  where p.parser_code is not null',
+            '     and p.donor_url is not null',
+            ';'
+        ]);
+
+        return $this
+            ->getEntityManager()
+            ->getConnection()
+            ->executeQuery($q)
+            ->fetchFirstColumn()
+        ;
+    }
+
+    public function fetchProductData(array $idList): array
+    {
+        $qb = $this->createQueryBuilder('p');
+
+//        $qb->innerJoin('p.vendor', 'v');
+
+        $qb->add('where', $qb->expr()->in('p.id', $idList));
+
+        $qb->select([
+            'p.id'
+        ]);
+//        $qb->addSelect('p.id');
+//        $qb->addSelect('p.code');
+//        $qb->addSelect('p.price');
+//        $qb->addSelect('v.name');
+
+        return $qb->getQuery()
+            ->getResult()
+        ;
+    }
 }

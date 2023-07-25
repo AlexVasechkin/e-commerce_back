@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\PutProductCategoryItemInterface;
 use App\Repository\ProductCategoryItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Ulid;
@@ -68,5 +69,13 @@ class ProductCategoryItem
         $this->category = $category;
 
         return $this;
+    }
+
+    public function put(PutProductCategoryItemInterface $request): self
+    {
+        return $this
+            ->setProduct($request->getProduct())
+            ->setCategory($request->getProductCategory())
+        ;
     }
 }

@@ -10,6 +10,7 @@ use App\Application\Actions\Email\SendTextEmailAction;
 use App\Repository\UserRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,7 +68,8 @@ class AuthenticationController extends AbstractController
         Request $httpRequest,
         CreateAuthTokenForUserAction $createAuthTokenForUserAction,
         SendTextEmailAction $sendTextEmailAction,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        ParameterBagInterface $parameterBag
     ) {
         try {
             $token = $createAuthTokenForUserAction->execute($httpRequest->get('email'));
@@ -80,7 +82,7 @@ class AuthenticationController extends AbstractController
                 'Чтобы авторизоваться переходи по ссылке',
                 implode(PHP_EOL, [
                     '<p>Чтобы авторизоваться переходи по ссылке<br />',
-                    sprintf('<a href="%s">войти</a>', '//' . $_SERVER['HTTP_HOST'] . $this->generateUrl('cp__auth_by_token') . '?token=' . $token),
+                    sprintf('<a href="%s">войти</a>', $parameterBag->get('app.host') . $this->generateUrl('cp__auth_by_token') . '?token=' . $token),
                     '</p>'
                 ])
             ));

@@ -13,6 +13,8 @@ class DashboardController extends AbstractController
      */
     public function main()
     {
-        return $this->render('cp/dashboard.html.twig', []);
+        return $this->render('cp/dashboard.html.twig', [
+            'title' =>  'Панель управления'
+        ]);
     }
 }

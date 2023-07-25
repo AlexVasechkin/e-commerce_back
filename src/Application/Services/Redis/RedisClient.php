@@ -3,13 +3,14 @@
 namespace App\Application\Services\Redis;
 
 use Predis;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class RedisClient
 {
     public Predis\Client $client;
 
-    public function __construct()
+    public function __construct(ParameterBagInterface $parameterBag)
     {
-        $this->client = new Predis\Client('tcp://shop_redis:6379');
+        $this->client = new Predis\Client($parameterBag->get('app.cache_dsn'));
     }
 }

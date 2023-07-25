@@ -38,4 +38,35 @@ class CategoryWebpageRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function fetchActiveWebpagesData(): array
+    {
+        return $this->createQueryBuilder('cw')
+            ->join('cw.category', 'pc')
+            ->join('cw.webpage', 'w')
+            ->where('pc.isActive = :isActive')
+            ->setParameter('isActive', true)
+            ->select('pc.id', 'w.name', 'pc.nameSingle', 'pc.picture', 'w.alias')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findCategoryWebpageByAlias(string $alias): ?CategoryWebpage
+    {
+        $resultSet = $this->createQueryBuilder('cw')
+            ->innerJoin('cw.webpage', 'w')
+            ->where('w.alias = :alias')
+            ->setParameter('alias', $alias)
+            ->select('cw.id')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        if (isset($resultSet[0])) {
+            return $this->findOneBy(['id' => $resultSet[0]['id']]);
+        } else {
+            return null;
+        }
+    }
 }

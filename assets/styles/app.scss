@@ -1,0 +1,34 @@
+.product-list__product-card-substrate {
+  display: block;
+  padding: 10px;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 7px;
+}
+
+.fixed-frame-container {
+  display: block;
+  width: 100%;
+  padding-bottom: 100%;
+  position: relative;
+}
+
+.fixed-frame-inner-container {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.adaptive-content {
+  max-width: 95%;
+  max-height: 95%;
+}
+
+.border-container {
+  border-radius: 4px;
+}

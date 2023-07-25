@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Domain\Contracts\ProductInterface;
 use App\Domain\Contracts\VendorInterface;
+use App\Entity\Contracts\PutProductInterface;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -98,11 +99,33 @@ class Product
      */
     private $price;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ProductGroupItem::class, mappedBy="product")
+     */
+    private $productGroupItems;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $parserCode;
+
+    /**
+     * @ORM\Column(type="string", length=2000, nullable=true)
+     */
+    private $donorUrl;
+
+    /**
+     * @ORM\OneToMany(targetEntity=OrderProduct::class, mappedBy="product")
+     */
+    private $orderProducts;
+
     public function __construct()
     {
         $this->productImages = new ArrayCollection();
         $this->productCategoryItems = new ArrayCollection();
         $this->productPropertyValues = new ArrayCollection();
+        $this->productGroupItems = new ArrayCollection();
+        $this->orderProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -337,6 +360,107 @@ class Product
     public function setPrice(?int $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function put(PutProductInterface $request): self
+    {
+        return $this
+            ->setCode($request->getCode())
+            ->setVendor($request->getVendor())
+            ->setName($request->getName())
+            ->setPrice($request->getPrice())
+            ->setCount($request->getCount())
+            ->setWidth($request->getWidth())
+            ->setHeight($request->getHeight())
+            ->setLength($request->getLength())
+            ->setMass($request->getMass())
+            ->setDonorUrl($request->getDonorUrl())
+            ->setParserCode($request->getParserCode())
+        ;
+    }
+
+    /**
+     * @return Collection<int, ProductGroupItem>
+     */
+    public function getProductGroupItems(): Collection
+    {
+        return $this->productGroupItems;
+    }
+
+    public function addProductGroupItem(ProductGroupItem $productGroupItem): self
+    {
+        if (!$this->productGroupItems->contains($productGroupItem)) {
+            $this->productGroupItems[] = $productGroupItem;
+            $productGroupItem->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductGroupItem(ProductGroupItem $productGroupItem): self
+    {
+        if ($this->productGroupItems->removeElement($productGroupItem)) {
+            // set the owning side to null (unless already changed)
+            if ($productGroupItem->getProduct() === $this) {
+                $productGroupItem->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getParserCode(): ?string
+    {
+        return $this->parserCode;
+    }
+
+    public function setParserCode(?string $parserCode): self
+    {
+        $this->parserCode = $parserCode;
+
+        return $this;
+    }
+
+    public function getDonorUrl(): ?string
+    {
+        return $this->donorUrl;
+    }
+
+    public function setDonorUrl(?string $donorUrl): self
+    {
+        $this->donorUrl = $donorUrl;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderProduct>
+     */
+    public function getOrderProducts(): Collection
+    {
+        return $this->orderProducts;
+    }
+
+    public function addOrderProduct(OrderProduct $orderProduct): self
+    {
+        if (!$this->orderProducts->contains($orderProduct)) {
+            $this->orderProducts[] = $orderProduct;
+            $orderProduct->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderProduct(OrderProduct $orderProduct): self
+    {
+        if ($this->orderProducts->removeElement($orderProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($orderProduct->getProduct() === $this) {
+                $orderProduct->setProduct(null);
+            }
+        }
 
         return $this;
     }

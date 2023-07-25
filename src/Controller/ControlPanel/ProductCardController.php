@@ -13,6 +13,8 @@ class ProductCardController extends AbstractController
      */
     public function main()
     {
-        return $this->render('cp/product-card.html.twig', []);
+        return $this->render('cp/product-card.html.twig', [
+            'title' => 'Редактируем товар'
+        ]);
     }
 }

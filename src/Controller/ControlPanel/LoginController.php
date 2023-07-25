@@ -12,6 +12,8 @@ class LoginController extends AbstractController
      */
     public function login()
     {
-        return $this->render('cp/login.html.twig', []);
+        return $this->render('cp/login.html.twig', [
+            'title' => 'Авторизация'
+        ]);
     }
 }

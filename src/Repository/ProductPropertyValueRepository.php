@@ -4,8 +4,10 @@ namespace App\Repository;
 
 use App\Entity\Product;
 use App\Entity\ProductPropertyValue;
+use App\Message\IndexProductMessage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
  * @extends ServiceEntityRepository<ProductPropertyValue>
@@ -17,9 +19,14 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProductPropertyValueRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    private MessageBusInterface $messageBus;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        MessageBusInterface $messageBus
+    ) {
         parent::__construct($registry, ProductPropertyValue::class);
+        $this->messageBus = $messageBus;
     }
 
     public function save(ProductPropertyValue $entity, bool $flush = false): void
@@ -29,15 +36,21 @@ class ProductPropertyValueRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+
+        $this->messageBus->dispatch(new IndexProductMessage($entity->getProduct()->getId()));
     }
 
     public function remove(ProductPropertyValue $entity, bool $flush = false): void
     {
+        $productId = $entity->getProduct()->getId();
+
         $this->getEntityManager()->remove($entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+
+        $this->messageBus->dispatch(new IndexProductMessage($productId));
     }
 
     public function fetchByProductAndProperties(Product $product, array $props)

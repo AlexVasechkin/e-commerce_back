@@ -61,17 +61,39 @@ class ProductCategory
      */
     private $categoryWebpage;
 
+    /**
+     * @ORM\Column(type="string", length=1000, nullable=true)
+     */
+    private $picture;
+
+    /**
+     * @ORM\Column(type="string", length=200, nullable=true)
+     */
+    private $nameSingle;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ProductGroupCategoryItem::class, mappedBy="productCategory")
+     */
+    private $productGroupCategoryItems;
+
     public function __construct()
     {
         $this->productCategories = new ArrayCollection();
         $this->categoryProperties = new ArrayCollection();
         $this->productCategoryItems = new ArrayCollection();
         $this->modelItems = new ArrayCollection();
+        $this->productGroupCategoryItems = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
     }
 
     public function getName(): ?string
@@ -245,5 +267,56 @@ class ProductCategory
         return $this;
     }
 
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
 
+    public function setPicture(?string $picture): self
+    {
+        $this->picture = $picture;
+        return $this;
+    }
+
+    public function getNameSingle(): ?string
+    {
+        return $this->nameSingle;
+    }
+
+    public function setNameSingle(?string $nameSingle): self
+    {
+        $this->nameSingle = $nameSingle;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductGroupCategoryItem>
+     */
+    public function getProductGroupCategoryItems(): Collection
+    {
+        return $this->productGroupCategoryItems;
+    }
+
+    public function addProductGroupCategoryItem(ProductGroupCategoryItem $productGroupCategoryItem): self
+    {
+        if (!$this->productGroupCategoryItems->contains($productGroupCategoryItem)) {
+            $this->productGroupCategoryItems[] = $productGroupCategoryItem;
+            $productGroupCategoryItem->setProductCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductGroupCategoryItem(ProductGroupCategoryItem $productGroupCategoryItem): self
+    {
+        if ($this->productGroupCategoryItems->removeElement($productGroupCategoryItem)) {
+            // set the owning side to null (unless already changed)
+            if ($productGroupCategoryItem->getProductCategory() === $this) {
+                $productGroupCategoryItem->setProductCategory(null);
+            }
+        }
+
+        return $this;
+    }
 }

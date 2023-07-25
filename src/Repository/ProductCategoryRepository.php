@@ -53,4 +53,22 @@ class ProductCategoryRepository extends ServiceEntityRepository
             ->fetchAllAssociative($query)
         ;
     }
+
+    /**
+     * @return ProductCategory[]
+     */
+    public function fetchModelById(array $productCategoryIdList): array
+    {
+        if ($productCategoryIdList === []) {
+            return [];
+        }
+
+        return $this
+            ->createQueryBuilder('pc')
+            ->where('pc.id IN (:ids)')
+            ->setParameter('ids', $productCategoryIdList)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

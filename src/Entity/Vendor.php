@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Domain\Contracts\VendorInterface;
+use App\Entity\Contracts\PutVendorInterface;
 use App\Repository\VendorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -90,5 +91,12 @@ class Vendor
         }
 
         return $this;
+    }
+
+    public function put(PutVendorInterface $request): self
+    {
+        return $this
+            ->setName($request->getName())
+        ;
     }
 }

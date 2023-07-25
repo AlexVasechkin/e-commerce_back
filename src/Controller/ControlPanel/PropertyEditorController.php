@@ -12,6 +12,8 @@ class PropertyEditorController extends AbstractController
      */
     public function main()
     {
-        return $this->render('cp/property-editor.html.twig', []);
+        return $this->render('cp/property-editor.html.twig', [
+            'title' => 'Справочник свойств'
+        ]);
     }
 }

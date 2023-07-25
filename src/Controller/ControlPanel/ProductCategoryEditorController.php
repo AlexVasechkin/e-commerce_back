@@ -12,6 +12,8 @@ class ProductCategoryEditorController extends AbstractController
      */
     public function main()
     {
-        return $this->render('cp/product-category-editor.html.twig', []);
+        return $this->render('cp/product-category-editor.html.twig', [
+            'title' => 'Категории товаров'
+        ]);
     }
 }

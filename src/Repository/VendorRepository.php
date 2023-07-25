@@ -21,13 +21,15 @@ class VendorRepository extends ServiceEntityRepository
         parent::__construct($registry, Vendor::class);
     }
 
-    public function save(Vendor $entity, bool $flush = false): void
+    public function save(Vendor $entity, bool $flush = false): Vendor
     {
         $this->getEntityManager()->persist($entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+
+        return $entity;
     }
 
     public function remove(Vendor $entity, bool $flush = false): void
@@ -37,5 +39,25 @@ class VendorRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findOneByNameOrFail(string $name): Vendor
+    {
+        $vendor = $this->findOneBy(['name' => $name]);
+
+        if (is_null($vendor)) {
+            throw new \Exception(sprintf('Vendor[name: "%s"] not found!', $name));
+        }
+
+        return $vendor;
+    }
+
+    public function fetchDataForDict(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t.id', 't.name')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

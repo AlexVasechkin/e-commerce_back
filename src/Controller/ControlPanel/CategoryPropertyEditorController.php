@@ -12,6 +12,8 @@ class CategoryPropertyEditorController extends AbstractController
      */
     public function main()
     {
-        return $this->render('cp/category-property-editor.html.twig', []);
+        return $this->render('cp/category-property-editor.html.twig', [
+            'title' => 'Свойства категорий'
+        ]);
     }
 }
