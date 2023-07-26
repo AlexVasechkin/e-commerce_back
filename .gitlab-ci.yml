@@ -14,14 +14,6 @@ before_script:
 deploy_prod:
   stage: deploy
   script:
-    - sshpass -f /root/password.txt ssh root@$BASTION_HOST "ssh root@$TARGET_HOST "rm -rf /var/www/html &&
-      rm -rf /var/www/html &&
-      mkdir -p /var/www &&
-      cd /var/www &&
-      git clone https://deploy:$DEPLOY_TOKEN@gitlab.com/e-commerce5474430/backend.git html &&
-      cp /root/cred/.env /var/www/html/.env
-      chown www-data:www-data html -R &&
-      cd html &&
-      sh ./deploy.sh" "
+    - sshpass -f /root/password.txt ssh root@$BASTION_HOST "cat /root/deploy/backend | ssh root@$TARGET_HOST"
   only:
    - master
