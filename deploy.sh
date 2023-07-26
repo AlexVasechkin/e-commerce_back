@@ -11,3 +11,5 @@ apt-get install -y nodejs
 
 npm install
 npm run build
+
+apt-get remove nodejs
