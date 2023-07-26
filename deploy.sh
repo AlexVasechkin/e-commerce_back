@@ -4,4 +4,4 @@ php ./composer.phar config --no-plugins allow-plugins.php-http/discovery true &&
 php ./composer.phar install &&
 php bin/console doctrine:migrations:migrate
 
-cd /var/www/html && npm run build
+cd /var/www/html && npm install && npm run build
