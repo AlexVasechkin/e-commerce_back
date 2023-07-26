@@ -6,11 +6,8 @@ php bin/console doctrine:migrations:migrate
 
 cd /var/www/html
 
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
-source ~/.bashrc
-
-nvm install --lts
-nvm use --lts
+curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+apt-get install -y nodejs
 
 npm install
 npm run build
