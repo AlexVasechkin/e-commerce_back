@@ -1,5 +1,5 @@
 stages:
-  - deploy
+  - build
 
 before_script:
   - apt-get update -qq
@@ -7,13 +7,12 @@ before_script:
   - 'which ssh-agent || ( apt-get install -qq openssh-client )'
   - eval $(ssh-agent -s)
   - mkdir -p /root/.ssh
-  - echo "$BASTION_PASSWORD" > /root/password.txt
   - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-  - ssh-keyscan $BASTION_HOST
 
 deploy_prod:
-  stage: deploy
+  stage: build
   script:
-    - sshpass -f /root/password.txt ssh root@$BASTION_HOST "cat /root/deploy/backend | ssh root@$TARGET_HOST"
+    - mkdir -p /tmp/project
+    - docker -v
   only:
    - master
