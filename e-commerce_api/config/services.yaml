@@ -1,0 +1,46 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    app.env: '%env(APP_ENV)%'
+    app.host: '%env(APP_HOST)%'
+
+    app.project.name: '%env(PROJECT_NAME)%'
+    app.project.legal_name: '%env(PROJECT_LEGAL_NAME)%'
+
+    app.object_storage.key_id: '%env(OBJECT_STORAGE_KEY_ID)%'
+    app.object_storage.secret_key: '%env(OBJECT_STORAGE_SECRET_KEY)%'
+    app.object_storage.bucket: '%env(OBJECT_STORAGE_BUCKET)%'
+
+    app.email.from: '%env(EMAIL_FROM)%'
+    app.jwt.secret: '%env(JWT_SECRET)%'
+
+    app.redis_dsn: '%env(REDIS_DSN)%'
+
+    app.images_host: '%env(IMAGES_HOST)%'
+
+    app.cache_dsn: '%env(CACHE_DSN)%'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    App\EventListener\DevEventListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: 'onDevRequest' }
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones

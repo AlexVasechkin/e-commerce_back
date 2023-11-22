@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Импорт товаров</title>
+</head>
+<body>
+<form id="import-form"
+      enctype="multipart/form-data"
+      action="{{ path('app_cp_import-products') }}"
+      method="post"
+>
+  <div>
+    <label for="file-input">Файл</label>
+    <input type="file"
+           id="file-input"
+           required
+           name="file" >
+  </div>
+  <div>
+    <select name="categoryId">
+      <option value="">Не выбрано</option>
+    {% for category in categories %}
+      <option value="{{ category.id }}">{{ category.name }}</option>
+    {% endfor %}
+    </select>
+  </div>
+  <div>
+    <button type="submit">Импортировать</button>
+  </div>
+</form>
+
+</body>
+</html>
